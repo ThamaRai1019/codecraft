@@ -3,368 +3,899 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CodeCraft Studio — Custom Software & AI Solutions</title>
+<title>CoreStack Labs — From Idea to Scalable Product</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
+/* ══════════════════════════════════════════════
+   TOKENS
+══════════════════════════════════════════════ */
 :root {
-  --bg:#0a0b10;--bg2:#10121a;--bg3:#181c28;--surface:#1e2235;--surface2:#252a3d;
-  --border:rgba(255,255,255,.07);--accent:#00e5ff;--accent2:#7c3aed;--accent3:#10b981;
-  --text:#e8eaf0;--muted:#6b7280;--heading:#ffffff;--card-glow:rgba(0,229,255,.08);
+  --bg:       #080911;
+  --bg2:      #0d0f1c;
+  --bg3:      #141728;
+  --surface:  #181b2e;
+  --surface2: #1e2238;
+  --border:   rgba(255,255,255,.06);
+  --border2:  rgba(255,255,255,.10);
+  --accent:   #4af2ff;
+  --accent2:  #8b5cf6;
+  --accent3:  #34d399;
+  --gold:     #fbbf24;
+  --text:     #c9cde0;
+  --muted:    #5a6080;
+  --heading:  #f0f2ff;
+  --card-glow:rgba(74,242,255,.06);
+  --grad-a:   linear-gradient(135deg,#4af2ff,#8b5cf6);
+  --grad-b:   linear-gradient(135deg,#8b5cf6,#34d399);
 }
 [data-theme="light"] {
-  --bg:#f5f6fa;--bg2:#eef0f8;--bg3:#e8ebf5;--surface:#ffffff;--surface2:#f0f2fb;
-  --border:rgba(0,0,0,.08);--accent:#0891b2;--accent2:#7c3aed;--accent3:#059669;
-  --text:#374151;--muted:#9ca3af;--heading:#111827;--card-glow:rgba(8,145,178,.06);
+  --bg:#f4f6ff;--bg2:#ebedf8;--bg3:#e2e5f5;
+  --surface:#ffffff;--surface2:#f0f2fd;
+  --border:rgba(0,0,0,.07);--border2:rgba(0,0,0,.12);
+  --accent:#0891b2;--accent2:#7c3aed;--accent3:#059669;
+  --gold:#d97706;
+  --text:#374151;--muted:#9ca3af;--heading:#0f172a;
+  --card-glow:rgba(8,145,178,.05);
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;transition:background .3s,color .3s;}
-h1,h2,h3,h4,h5{font-family:'Syne',sans-serif;color:var(--heading);line-height:1.15;}
-a{color:inherit;text-decoration:none;}
-img{max-width:100%;display:block;}
-::-webkit-scrollbar{width:4px;}
-::-webkit-scrollbar-track{background:var(--bg);}
-::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px;}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.4;}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:64px;background:rgba(10,11,16,.7);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s;}
-[data-theme="light"] nav{background:rgba(245,246,250,.8);}
-.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--heading);display:flex;align-items:center;gap:.5rem;}
-.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;}
-.nav-links{display:flex;align-items:center;gap:2rem;}
-.nav-links a{font-size:.85rem;font-weight:500;letter-spacing:.03em;color:var(--muted);transition:color .2s;}
-.nav-links a:hover{color:var(--accent);}
-.nav-actions{display:flex;align-items:center;gap:.75rem;}
-.theme-btn{background:var(--surface);border:1px solid var(--border);color:var(--text);width:36px;height:36px;border-radius:50%;cursor:pointer;display:grid;place-items:center;font-size:1rem;transition:background .2s,border-color .2s;}
-.theme-btn:hover{border-color:var(--accent);}
-.btn-primary{background:var(--accent);color:#0a0b10;font-family:'Syne',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;padding:.55rem 1.25rem;border-radius:6px;border:none;cursor:pointer;transition:transform .15s,box-shadow .2s;display:inline-block;}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,229,255,.3);}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
-.hamburger span{width:24px;height:2px;background:var(--text);border-radius:2px;transition:all .3s;display:block;}
-
-/* HERO */
-#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:100px 5vw 60px;position:relative;overflow:hidden;}
-.hero-mesh{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 70% 40%,rgba(0,229,255,.07) 0%,transparent 60%),radial-gradient(ellipse 40% 50% at 20% 70%,rgba(124,58,237,.06) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 50% 10%,rgba(16,185,129,.04) 0%,transparent 60%);}
-.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 80%);}
-.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:.35rem .9rem;font-size:.75rem;font-weight:500;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:1.5rem;animation:fadeUp .6s ease both;}
-.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
-.hero-title{font-size:clamp(3rem,7vw,6rem);font-weight:800;line-height:1.05;margin-bottom:1.5rem;animation:fadeUp .7s .1s ease both;}
-.hero-title span{color:var(--accent);}
-.hero-title em{font-style:normal;color:var(--accent2);}
-.hero-sub{font-size:clamp(1rem,1.8vw,1.2rem);color:var(--muted);max-width:560px;margin-bottom:2.5rem;font-weight:300;animation:fadeUp .7s .2s ease both;}
-.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .7s .3s ease both;}
-.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);font-family:'Syne',sans-serif;font-weight:600;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;padding:.7rem 1.5rem;border-radius:6px;cursor:pointer;transition:border-color .2s,color .2s,background .2s;display:inline-block;}
-.btn-outline:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,229,255,.05);}
-.btn-lg{padding:.85rem 2rem;font-size:.9rem;}
-.hero-stats{display:flex;gap:3rem;margin-top:4rem;animation:fadeUp .7s .4s ease both;}
-.stat-num{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--heading);}
-.stat-num span{color:var(--accent);}
-.stat-label{font-size:.78rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;}
-.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;animation:fadeUp .7s .6s ease both;}
-.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollAnim 2s infinite;}
-@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}50.1%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-
-/* SECTIONS */
-section{padding:100px 5vw;}
-.section-label{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.75rem;}
-.section-label::before{content:'//';color:var(--muted);}
-.section-title{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;margin-bottom:1rem;}
-.section-sub{color:var(--muted);max-width:520px;font-size:1rem;font-weight:300;margin-bottom:3.5rem;}
-
-/* ABOUT */
-#about{background:var(--bg2);}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
-.about-visual{position:relative;}
-.about-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;overflow:hidden;}
-.about-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
-.about-icons{display:flex;gap:1rem;margin-bottom:1.5rem;}
-.icon-box{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-size:1.2rem;background:var(--surface2);border:1px solid var(--border);}
-.about-float{position:absolute;right:-1.5rem;bottom:-1.5rem;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1rem 1.5rem;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--accent);box-shadow:0 8px 32px rgba(0,0,0,.3);}
-.about-text p{color:var(--muted);margin-bottom:1.2rem;font-weight:300;}
-.expertise-list{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem;}
-.expertise-pill{background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:.3rem .8rem;font-size:.75rem;font-weight:500;color:var(--text);transition:border-color .2s,color .2s;}
-.expertise-pill:hover{border-color:var(--accent);color:var(--accent);}
-
-/* TEAM */
-#team{}
-.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;}
-.team-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;cursor:pointer;}
-.team-card::after{content:'';position:absolute;inset:0;border-radius:16px;background:var(--card-glow);opacity:0;transition:opacity .3s;}
-.team-card:hover{transform:translateY(-6px);border-color:rgba(0,229,255,.2);box-shadow:0 20px 60px rgba(0,0,0,.3);}
-.team-card:hover::after{opacity:1;}
-.team-card-hint{position:absolute;bottom:1.2rem;right:1.2rem;font-size:.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.05em;opacity:0;transition:opacity .3s;z-index:2;}
-.team-card:hover .team-card-hint{opacity:1;}
-.avatar{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;margin-bottom:1rem;position:relative;z-index:1;}
-.av1{background:linear-gradient(135deg,#00e5ff22,#00e5ff44);color:var(--accent);border:2px solid var(--accent);}
-.av2{background:linear-gradient(135deg,#7c3aed22,#7c3aed44);color:var(--accent2);border:2px solid var(--accent2);}
-.av3{background:linear-gradient(135deg,#10b98122,#10b98144);color:var(--accent3);border:2px solid var(--accent3);}
-.av4{background:linear-gradient(135deg,#f59e0b22,#f59e0b44);color:#f59e0b;border:2px solid #f59e0b;}
-.team-name{font-size:1.1rem;font-weight:700;margin-bottom:.25rem;position:relative;z-index:1;}
-.team-role{font-size:.78rem;color:var(--accent);font-weight:500;letter-spacing:.04em;text-transform:uppercase;margin-bottom:1rem;position:relative;z-index:1;}
-.skill-tags{display:flex;flex-wrap:wrap;gap:.4rem;position:relative;z-index:1;}
-.skill-tag{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:.2rem .5rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);}
-.team-num{position:absolute;top:1.5rem;right:1.5rem;font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--border);line-height:1;z-index:0;user-select:none;}
-
-/* ── TEAM MEMBER POPUP MODAL ───────────────────────────── */
-.member-overlay{
-  position:fixed;inset:0;z-index:1000;
-  background:rgba(0,0,0,.7);
-  backdrop-filter:blur(8px);
-  display:flex;align-items:center;justify-content:center;
-  padding:1.5rem;
-  opacity:0;pointer-events:none;
-  transition:opacity .35s ease;
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Space Grotesk',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  overflow-x:hidden;
+  transition:background .3s,color .3s;
 }
-.member-overlay.open{opacity:1;pointer-events:all;}
-.member-modal{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:24px;
-  width:100%;max-width:520px;
+h1,h2,h3,h4,h5 {
+  font-family:'Outfit',sans-serif;
+  color:var(--heading);
+  line-height:1.1;
+}
+a { color:inherit; text-decoration:none; }
+img { max-width:100%; display:block; }
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--accent); border-radius:3px; }
+
+/* Noise grain overlay */
+body::before {
+  content:'';
+  position:fixed;inset:0;pointer-events:none;z-index:9998;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity:.35;
+}
+
+/* ══════════════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════════════ */
+nav {
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5vw;height:68px;
+  background:rgba(8,9,17,.65);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  transition:background .3s;
+}
+[data-theme="light"] nav { background:rgba(244,246,255,.8); }
+
+.logo {
+  font-family:'Outfit',sans-serif;font-weight:800;font-size:1.05rem;
+  color:var(--heading);display:flex;align-items:center;gap:.6rem;
+  letter-spacing:-.01em;
+}
+.logo-img {
+  width:32px;height:32px;border-radius:7px;
+  object-fit:contain;flex-shrink:0;
+}
+.logo-icon {
+  width:28px;height:28px;border-radius:7px;
+  background:var(--grad-a);
+  display:grid;place-items:center;font-size:.75rem;
+  flex-shrink:0;
+}
+
+.nav-links { display:flex;align-items:center;gap:2.25rem; }
+.nav-links a {
+  font-size:.82rem;font-weight:500;letter-spacing:.02em;
+  color:var(--muted);transition:color .2s;
+}
+.nav-links a:hover { color:var(--heading); }
+
+.nav-actions { display:flex;align-items:center;gap:.6rem; }
+.theme-btn {
+  background:var(--surface);border:1px solid var(--border2);
+  color:var(--text);width:36px;height:36px;border-radius:50%;
+  cursor:pointer;display:grid;place-items:center;font-size:.95rem;
+  transition:all .2s;
+}
+.theme-btn:hover { border-color:var(--accent);box-shadow:0 0 12px rgba(74,242,255,.2); }
+
+.btn-primary {
+  background:var(--grad-a);
+  color:#080911;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:.78rem;
+  letter-spacing:.04em;text-transform:uppercase;
+  padding:.55rem 1.3rem;border-radius:8px;border:none;cursor:pointer;
+  transition:transform .15s,box-shadow .2s,opacity .2s;
+  display:inline-block;position:relative;
+}
+.btn-primary:hover { transform:translateY(-1px);box-shadow:0 10px 28px rgba(74,242,255,.28); }
+
+.hamburger { display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px; }
+.hamburger span { width:22px;height:2px;background:var(--text);border-radius:2px;transition:all .3s;display:block; }
+
+/* ══════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════ */
+#hero {
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:100px 5vw 80px;
   position:relative;overflow:hidden;
-  transform:translateY(40px) scale(.96);
-  transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .35s ease;
-  opacity:0;
 }
-.member-overlay.open .member-modal{transform:translateY(0) scale(1);opacity:1;}
-.member-modal-top-bar{height:3px;background:linear-gradient(90deg,var(--modal-c1,#00e5ff),var(--modal-c2,#7c3aed));}
-.member-modal-hero{
-  padding:2.5rem 2.5rem 2rem;
-  display:flex;align-items:center;gap:1.75rem;
+
+/* Animated gradient orbs */
+.hero-orb {
+  position:absolute;border-radius:50%;pointer-events:none;filter:blur(90px);
+  animation:orbFloat 10s ease-in-out infinite;
+}
+.hero-orb-1 { width:520px;height:520px;right:-80px;top:-60px;background:radial-gradient(circle,rgba(74,242,255,.09),transparent 70%);animation-delay:0s; }
+.hero-orb-2 { width:400px;height:400px;left:-100px;bottom:80px;background:radial-gradient(circle,rgba(139,92,246,.08),transparent 70%);animation-delay:-4s; }
+.hero-orb-3 { width:300px;height:300px;left:45%;top:20%;background:radial-gradient(circle,rgba(52,211,153,.05),transparent 70%);animation-delay:-7s; }
+@keyframes orbFloat {
+  0%,100% { transform:translateY(0) scale(1); }
+  50% { transform:translateY(-30px) scale(1.05); }
+}
+
+.hero-grid-bg {
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(var(--border) 1px,transparent 1px),
+    linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 20%,transparent 75%);
+}
+
+.hero-badge {
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:rgba(74,242,255,.07);
+  border:1px solid rgba(74,242,255,.18);
+  border-radius:100px;padding:.38rem 1rem;
+  font-size:.72rem;font-weight:600;color:var(--accent);
+  letter-spacing:.07em;text-transform:uppercase;
+  margin-bottom:1.75rem;
+  animation:fadeUp .6s ease both;
+  width:fit-content;
+}
+.badge-pulse { width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+
+.hero-title {
+  font-size:clamp(3rem,6.5vw,5.8rem);
+  font-weight:900;
+  line-height:1.02;
+  margin-bottom:1.5rem;
+  letter-spacing:-.03em;
+  animation:fadeUp .7s .1s ease both;
+}
+.hero-title .line2 { display:block; }
+.hero-title .hl-cyan { color:var(--accent); }
+.hero-title .hl-purple {
+  background:var(--grad-a);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.hero-sub {
+  font-size:clamp(.95rem,1.5vw,1.15rem);
+  color:var(--muted);max-width:540px;
+  margin-bottom:2.75rem;font-weight:400;
+  animation:fadeUp .7s .2s ease both;line-height:1.7;
+}
+
+.hero-ctas {
+  display:flex;gap:1rem;flex-wrap:wrap;
+  animation:fadeUp .7s .3s ease both;
+}
+.btn-outline {
+  background:transparent;border:1px solid var(--border2);color:var(--text);
+  font-family:'Outfit',sans-serif;font-weight:600;font-size:.78rem;
+  letter-spacing:.04em;text-transform:uppercase;padding:.7rem 1.5rem;
+  border-radius:8px;cursor:pointer;
+  transition:border-color .2s,color .2s,background .2s;display:inline-block;
+}
+.btn-outline:hover { border-color:var(--accent);color:var(--accent);background:rgba(74,242,255,.04); }
+.btn-lg { padding:.85rem 2.2rem;font-size:.88rem; }
+
+.hero-stats {
+  display:flex;gap:3.5rem;margin-top:5rem;
+  animation:fadeUp .7s .45s ease both;
+  padding-top:3rem;
+  border-top:1px solid var(--border);
+  width:fit-content;
+}
+.stat-num {
+  font-family:'Outfit',sans-serif;font-size:2.2rem;font-weight:800;
+  color:var(--heading);letter-spacing:-.03em;
+}
+.stat-num sup { font-size:1rem;color:var(--accent);vertical-align:top;margin-top:.3rem;display:inline-block; }
+.stat-label { font-size:.72rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-top:.1rem; }
+
+/* ══════════════════════════════════════════════
+   SECTION COMMON
+══════════════════════════════════════════════ */
+section { padding:110px 5vw; }
+
+.section-eyebrow {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.7rem;color:var(--accent);letter-spacing:.18em;
+  text-transform:uppercase;margin-bottom:1rem;
+  display:flex;align-items:center;gap:.8rem;
+}
+.section-eyebrow::before { content:''; width:24px;height:1px;background:var(--accent);display:block; }
+
+.section-title {
+  font-size:clamp(1.8rem,3.2vw,2.75rem);
+  font-weight:800;margin-bottom:1rem;letter-spacing:-.025em;
+}
+.section-sub {
+  color:var(--muted);max-width:500px;font-size:.95rem;
+  font-weight:400;margin-bottom:3.5rem;line-height:1.65;
+}
+
+/* ══════════════════════════════════════════════
+   ABOUT
+══════════════════════════════════════════════ */
+#about { background:var(--bg2); }
+
+.about-grid {
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;
+}
+
+.about-card-wrap { position:relative; }
+
+.code-card {
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:20px;padding:0;overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,.35);
   position:relative;
 }
-.member-modal-hero::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 80% 80% at 20% 50%,var(--modal-glow,rgba(0,229,255,.06)) 0%,transparent 70%);
-  pointer-events:none;
+.code-card-bar {
+  height:44px;background:var(--surface2);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 1.25rem;gap:.5rem;
 }
-.modal-avatar{
-  width:96px;height:96px;border-radius:50%;
-  border:3px solid var(--modal-c1,var(--accent));
-  overflow:hidden;flex-shrink:0;
-  display:grid;place-items:center;
-  font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;
-  position:relative;z-index:1;
+.dot { width:10px;height:10px;border-radius:50%; }
+.dot-r { background:#ff5f57; }
+.dot-y { background:#febc2e; }
+.dot-g { background:#28c840; }
+.code-card-filename {
+  margin-left:auto;font-family:'JetBrains Mono',monospace;
+  font-size:.65rem;color:var(--muted);
 }
-.modal-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
-.modal-info{position:relative;z-index:1;}
-.modal-name{font-size:1.5rem;font-weight:800;margin-bottom:.3rem;}
-.modal-role{font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--modal-c1,var(--accent));margin-bottom:.75rem;}
-.modal-location{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:.4rem;}
-.member-modal-body{padding:0 2.5rem 2.5rem;}
-.modal-section-title{font-size:.7rem;font-family:'JetBrains Mono',monospace;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.75rem;margin-top:1.5rem;}
-.modal-bio{font-size:.9rem;color:var(--muted);font-weight:300;line-height:1.7;}
-.modal-skills-grid{display:flex;flex-wrap:wrap;gap:.5rem;}
-.modal-skill{
+.code-card-body {
+  padding:1.75rem 1.75rem 2rem;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.78rem;line-height:2;
+}
+.tk-k { color:#c792ea; }
+.tk-s { color:#82aaff; }
+.tk-n { color:var(--accent3); }
+.tk-b { color:var(--accent); }
+.tk-c { color:var(--muted); }
+.tk-str { color:var(--gold); }
+.tk-prop { color:#f78c6c; }
+
+.float-badge {
+  position:absolute;right:-2rem;bottom:-1.5rem;
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:14px;padding:1rem 1.4rem;
+  box-shadow:0 16px 40px rgba(0,0,0,.4);
+  font-size:.78rem;
+}
+.float-badge-title {
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;
+  color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.6rem;
+}
+.float-badge-item {
   display:flex;align-items:center;gap:.5rem;
+  color:var(--text);margin-bottom:.25rem;
+}
+.float-badge-item::before { content:'✓';color:var(--accent3);font-weight:700;font-size:.75rem; }
+
+.about-text p { color:var(--muted);margin-bottom:1.25rem;font-weight:400;font-size:.95rem;line-height:1.7; }
+.pill-group { display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.75rem; }
+.pill {
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:100px;padding:.3rem .85rem;
+  font-size:.74rem;font-weight:500;color:var(--text);
+  transition:border-color .2s,color .2s;cursor:default;
+}
+.pill:hover { border-color:var(--accent);color:var(--accent); }
+
+/* ══════════════════════════════════════════════
+   TEAM
+══════════════════════════════════════════════ */
+#team { background:var(--bg); }
+
+.team-grid {
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:1.25rem;
+}
+
+.team-card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;padding:2rem;
+  position:relative;overflow:hidden;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s,border-color .3s;
+  cursor:pointer;
+}
+.team-card::before {
+  content:'';position:absolute;inset:0;border-radius:20px;
+  background:radial-gradient(circle at 30% 30%, var(--card-glow),transparent 65%);
+  opacity:0;transition:opacity .4s;
+}
+.team-card:hover { transform:translateY(-8px);border-color:var(--border2);box-shadow:0 28px 70px rgba(0,0,0,.35); }
+.team-card:hover::before { opacity:1; }
+
+.team-num {
+  position:absolute;top:1.25rem;right:1.5rem;
+  font-family:'Outfit',sans-serif;font-size:3.5rem;font-weight:800;
+  color:rgba(255,255,255,.03);line-height:1;user-select:none;
+  transition:color .3s;
+}
+.team-card:hover .team-num { color:rgba(255,255,255,.05); }
+
+.avatar {
+  width:64px;height:64px;border-radius:16px;
+  display:grid;place-items:center;
+  font-family:'Outfit',sans-serif;font-weight:800;font-size:1.3rem;
+  margin-bottom:1.25rem;position:relative;z-index:1;
+  overflow:hidden;flex-shrink:0;
+}
+.avatar img { width:100%;height:100%;object-fit:cover;border-radius:16px; }
+.av1 { background:linear-gradient(135deg,rgba(74,242,255,.15),rgba(74,242,255,.3));color:var(--accent);border:1.5px solid rgba(74,242,255,.35); }
+.av2 { background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(139,92,246,.3));color:var(--accent2);border:1.5px solid rgba(139,92,246,.35); }
+.av3 { background:linear-gradient(135deg,rgba(52,211,153,.15),rgba(52,211,153,.3));color:var(--accent3);border:1.5px solid rgba(52,211,153,.35); }
+.av4 { background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(251,191,36,.3));color:var(--gold);border:1.5px solid rgba(251,191,36,.35); }
+
+.team-name { font-size:1rem;font-weight:700;margin-bottom:.2rem;position:relative;z-index:1;letter-spacing:-.01em; }
+.team-role { font-size:.73rem;color:var(--accent);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:1.1rem;position:relative;z-index:1; }
+.skill-tags { display:flex;flex-wrap:wrap;gap:.35rem;position:relative;z-index:1; }
+.skill-tag {
   background:var(--bg3);border:1px solid var(--border);
-  border-radius:8px;padding:.4rem .8rem;
-  font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text);
+  border-radius:5px;padding:.2rem .5rem;
+  font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);
   transition:border-color .2s,color .2s;
 }
-.modal-skill:hover{border-color:var(--modal-c1,var(--accent));color:var(--modal-c1,var(--accent));}
-.modal-skill-dot{width:6px;height:6px;border-radius:50%;background:var(--modal-c1,var(--accent));flex-shrink:0;}
-.modal-highlights{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
-.modal-highlight{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem;}
-.modal-highlight-num{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--modal-c1,var(--accent));}
-.modal-highlight-label{font-size:.72rem;color:var(--muted);}
-.modal-close{
-  position:absolute;top:1.25rem;right:1.25rem;
-  width:36px;height:36px;border-radius:50%;
+.team-card:hover .skill-tag { border-color:var(--border2); }
+
+.card-cta {
+  position:absolute;bottom:1.25rem;right:1.25rem;
+  font-size:.62rem;color:var(--muted);font-family:'JetBrains Mono',monospace;
+  letter-spacing:.04em;opacity:0;transform:translateX(4px);
+  transition:opacity .3s,transform .3s;z-index:2;
+}
+.team-card:hover .card-cta { opacity:1;transform:translateX(0); }
+
+/* ══════════════════════════════════════════════
+   MEMBER MODAL
+══════════════════════════════════════════════ */
+.member-overlay {
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:center;padding:1.5rem;
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+}
+.member-overlay.open { opacity:1;pointer-events:all; }
+
+.member-modal {
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:24px;
+  width:100%;max-width:540px;
+  position:relative;overflow:hidden;
+  transform:translateY(40px) scale(.95);
+  transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .3s ease;
+  opacity:0;
+}
+.member-overlay.open .member-modal { transform:translateY(0) scale(1);opacity:1; }
+
+.modal-top-strip { height:3px;background:var(--grad-a); }
+.modal-close {
+  position:absolute;top:1.2rem;right:1.2rem;
+  width:34px;height:34px;border-radius:50%;
   background:var(--bg2);border:1px solid var(--border);
-  color:var(--muted);cursor:pointer;font-size:1rem;
+  color:var(--muted);cursor:pointer;font-size:.9rem;
   display:grid;place-items:center;
-  transition:border-color .2s,color .2s,transform .2s;z-index:2;
+  transition:border-color .2s,color .2s,transform .25s;z-index:2;
 }
-.modal-close:hover{border-color:var(--accent);color:var(--accent);transform:rotate(90deg);}
-.modal-expertise-bar{margin-top:.5rem;}
-.exp-bar-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem;}
-.exp-bar-label{font-size:.78rem;color:var(--text);min-width:100px;}
-.exp-bar-track{flex:1;height:4px;background:var(--border);border-radius:4px;overflow:hidden;}
-.exp-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--modal-c1,var(--accent)),var(--modal-c2,var(--accent2)));width:0;transition:width 1s cubic-bezier(.4,0,.2,1);}
+.modal-close:hover { border-color:var(--accent);color:var(--accent);transform:rotate(90deg); }
 
-/* SERVICES */
-#services{background:var(--bg2);}
-.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;}
-.service-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.75rem;position:relative;overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s;}
-.service-card:hover{transform:translateY(-4px);border-color:rgba(0,229,255,.15);box-shadow:0 16px 48px rgba(0,0,0,.25);}
-.service-icon{font-size:2rem;margin-bottom:1rem;width:56px;height:56px;border-radius:12px;display:grid;place-items:center;background:var(--bg3);border:1px solid var(--border);}
-.service-title{font-size:1rem;font-weight:700;margin-bottom:.6rem;}
-.service-desc{font-size:.875rem;color:var(--muted);font-weight:300;line-height:1.6;}
-.service-arrow{position:absolute;bottom:1.5rem;right:1.5rem;color:var(--muted);font-size:1.1rem;transition:color .2s,transform .2s;}
-.service-card:hover .service-arrow{color:var(--accent);transform:translate(2px,-2px);}
-
-/* TECH */
-#techstack{}
-.tech-marquee-wrap{overflow:hidden;margin-bottom:2rem;}
-.tech-marquee{display:flex;gap:1rem;width:max-content;animation:marquee 25s linear infinite;}
-.tech-marquee2{animation-direction:reverse;}
-@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.tech-pill{background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:.5rem 1.25rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;white-space:nowrap;display:flex;align-items:center;gap:.5rem;color:var(--text);}
-.tech-pill span{color:var(--accent);}
-.tech-categories{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-top:3rem;}
-.tech-cat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem;}
-.tech-cat-title{font-size:.72rem;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:.75rem;font-family:'JetBrains Mono',monospace;}
-.tech-cat ul{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
-.tech-cat li{font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:.4rem;}
-.tech-cat li::before{content:'▸';color:var(--accent);font-size:.6rem;}
-
-/* PORTFOLIO */
-#portfolio{background:var(--bg2);}
-.portfolio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.5rem;}
-.portfolio-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s;}
-.portfolio-card:hover{transform:translateY(-6px);border-color:rgba(0,229,255,.2);box-shadow:0 24px 60px rgba(0,0,0,.3);}
-.portfolio-img{height:200px;display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;overflow:hidden;}
-.p1{background:linear-gradient(135deg,#0a0b1080,#00e5ff15);}
-.p2{background:linear-gradient(135deg,#0a0b1080,#7c3aed15);}
-.p3{background:linear-gradient(135deg,#0a0b1080,#10b98115);}
-.p4{background:linear-gradient(135deg,#0a0b1080,#f59e0b15);}
-.portfolio-img-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:30px 30px;}
-.portfolio-body{padding:1.5rem;}
-.portfolio-tag{display:inline-block;font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .6rem;border-radius:4px;margin-bottom:.75rem;font-family:'JetBrains Mono',monospace;}
-.tag-ai{background:rgba(0,229,255,.1);color:var(--accent);}
-.tag-web{background:rgba(124,58,237,.1);color:var(--accent2);}
-.tag-cloud{background:rgba(245,158,11,.1);color:#f59e0b;}
-.tag-auto{background:rgba(16,185,129,.1);color:var(--accent3);}
-.portfolio-title{font-size:1.1rem;font-weight:700;margin-bottom:.5rem;}
-.portfolio-desc{font-size:.85rem;color:var(--muted);font-weight:300;line-height:1.6;}
-.portfolio-techs{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:1rem;}
-.portfolio-tech{font-size:.68rem;font-family:'JetBrains Mono',monospace;color:var(--muted);padding:.15rem .45rem;background:var(--bg3);border-radius:3px;}
-
-/* ESTIMATOR */
-#estimator{}
-.estimator-wrap{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:3rem;max-width:860px;margin:0 auto;position:relative;overflow:hidden;}
-.estimator-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));}
-.estimator-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem;}
-.est-group label{display:block;font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;font-family:'JetBrains Mono',monospace;}
-.est-group select,.est-group input[type=range]{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:.65rem .9rem;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;appearance:none;-webkit-appearance:none;}
-.est-group select:focus{border-color:var(--accent);}
-.est-group input[type=range]{padding:0;border:none;background:transparent;cursor:pointer;}
-input[type=range]::-webkit-slider-thumb{appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;}
-input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--border);border-radius:4px;}
-.checkboxes{display:flex;flex-direction:column;gap:.5rem;}
-.check-item{display:flex;align-items:center;gap:.75rem;cursor:pointer;}
-.check-item input[type=checkbox]{appearance:none;width:18px;height:18px;border:2px solid var(--border);border-radius:4px;cursor:pointer;position:relative;transition:border-color .2s,background .2s;}
-.check-item input[type=checkbox]:checked{background:var(--accent);border-color:var(--accent);}
-.check-item input[type=checkbox]:checked::after{content:'✓';position:absolute;top:-2px;left:2px;font-size:.75rem;color:#0a0b10;font-weight:800;}
-.check-item span{font-size:.88rem;}
-.estimate-result{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.5rem;text-align:center;}
-.estimate-range{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--accent);}
-.estimate-note{font-size:.8rem;color:var(--muted);margin-top:.5rem;}
-.est-full{grid-column:1/-1;}
-
-/* TESTIMONIALS */
-#testimonials{background:var(--bg2);}
-.testi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;}
-.testi-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;}
-.testi-quote{font-size:3rem;color:var(--accent);line-height:1;margin-bottom:.5rem;opacity:.4;font-family:'Syne',sans-serif;}
-.testi-text{font-size:.9rem;color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:1.5rem;font-style:italic;}
-.testi-author{display:flex;align-items:center;gap:.75rem;}
-.testi-av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.9rem;background:var(--surface2);border:1px solid var(--border);}
-.testi-name{font-weight:600;font-size:.88rem;}
-.testi-company{font-size:.75rem;color:var(--muted);}
-.stars{color:#f59e0b;font-size:.8rem;margin-bottom:.75rem;}
-
-/* CONTACT */
-#contact{}
-.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:4rem;align-items:start;}
-.contact-method{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
-.contact-icon{width:44px;height:44px;border-radius:10px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;font-size:1.1rem;flex-shrink:0;}
-.contact-method-text a{color:var(--accent);font-size:.9rem;}
-.contact-method-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
-.wa-btn{display:flex;align-items:center;gap:.75rem;background:#25D366;color:white;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;padding:.8rem 1.5rem;border-radius:8px;cursor:pointer;margin-top:2rem;transition:transform .15s,box-shadow .2s;text-decoration:none;width:fit-content;}
-.wa-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.35);}
-.contact-form{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem;}
-.form-group{margin-bottom:1.25rem;}
-.form-group label{display:block;font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;font-family:'JetBrains Mono',monospace;}
-.form-group input,.form-group textarea,.form-group select{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;resize:vertical;}
-.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--accent);}
-.form-group textarea{min-height:120px;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.form-success{display:none;background:rgba(16,185,129,.1);border:1px solid var(--accent3);border-radius:8px;padding:1rem;color:var(--accent3);text-align:center;font-size:.9rem;margin-top:1rem;}
-
-/* FOOTER */
-footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 5vw 2rem;}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;}
-.footer-brand p{font-size:.85rem;color:var(--muted);margin-top:.75rem;max-width:280px;font-weight:300;}
-.footer-col h5{font-size:.85rem;font-weight:700;margin-bottom:1rem;color:var(--heading);}
-.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
-.footer-col li a{font-size:.82rem;color:var(--muted);transition:color .2s;}
-.footer-col li a:hover{color:var(--accent);}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;border-top:1px solid var(--border);font-size:.8rem;color:var(--muted);}
-.footer-bottom span{color:var(--accent);}
-.socials{display:flex;gap:.75rem;}
-.social-btn{width:36px;height:36px;border-radius:8px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;font-size:.9rem;cursor:pointer;transition:border-color .2s,color .2s;color:var(--muted);text-decoration:none;}
-.social-btn:hover{border-color:var(--accent);color:var(--accent);}
-
-/* MOBILE MENU */
-.mobile-menu{position:fixed;inset:0;z-index:99;background:var(--bg);padding:80px 5vw 2rem;transform:translateX(100%);transition:transform .3s;display:flex;flex-direction:column;gap:1.5rem;}
-.mobile-menu.open{transform:translateX(0);}
-.mobile-menu a{font-size:1.5rem;font-family:'Syne',sans-serif;font-weight:700;color:var(--text);}
-.mobile-menu a:hover{color:var(--accent);}
-
-/* ANIMATIONS */
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  .nav-links{display:none;}
-  .hamburger{display:flex;}
-  .about-grid{grid-template-columns:1fr;gap:2.5rem;}
-  .contact-grid{grid-template-columns:1fr;}
-  .footer-grid{grid-template-columns:1fr 1fr;gap:2rem;}
-  .estimator-grid{grid-template-columns:1fr;}
+.modal-hero {
+  padding:2.25rem 2.5rem 1.75rem;
+  display:flex;align-items:center;gap:1.75rem;position:relative;
 }
-@media(max-width:600px){
-  .hero-stats{gap:1.5rem;flex-wrap:wrap;}
-  .footer-grid{grid-template-columns:1fr;}
-  .form-row{grid-template-columns:1fr;}
-  .portfolio-grid,.services-grid,.team-grid{grid-template-columns:1fr;}
-  .member-modal-hero{flex-direction:column;text-align:center;}
-  .modal-highlights{grid-template-columns:1fr 1fr;}
+.modal-hero::after {
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 80% at 15% 50%,var(--modal-glow,rgba(74,242,255,.06)),transparent 65%);
+  pointer-events:none;
+}
+.modal-avatar {
+  width:88px;height:88px;border-radius:18px;
+  overflow:hidden;flex-shrink:0;
+  display:grid;place-items:center;
+  font-family:'Outfit',sans-serif;font-weight:800;font-size:1.7rem;
+  border:2px solid var(--modal-c1,var(--accent));
+  position:relative;z-index:1;
+}
+.modal-avatar img { width:100%;height:100%;object-fit:cover;border-radius:16px; }
+.modal-info { position:relative;z-index:1; }
+.modal-name { font-size:1.45rem;font-weight:800;margin-bottom:.25rem;letter-spacing:-.02em; }
+.modal-role { font-size:.73rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--modal-c1,var(--accent));margin-bottom:.6rem; }
+.modal-location { font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:.4rem; }
+
+.modal-body { padding:0 2.5rem 2.5rem; }
+.modal-label {
+  font-size:.65rem;font-family:'JetBrains Mono',monospace;
+  color:var(--muted);letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:.65rem;margin-top:1.5rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.modal-label::before { content:'';width:14px;height:1px;background:var(--muted);display:block; }
+.modal-bio { font-size:.88rem;color:var(--muted);font-weight:400;line-height:1.75; }
+
+.modal-skills { display:flex;flex-wrap:wrap;gap:.45rem; }
+.modal-skill {
+  display:flex;align-items:center;gap:.45rem;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;padding:.38rem .75rem;
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--text);
+  transition:border-color .2s,color .2s;
+}
+.modal-skill:hover { border-color:var(--modal-c1,var(--accent));color:var(--modal-c1,var(--accent)); }
+.skill-dot { width:5px;height:5px;border-radius:50%;background:var(--modal-c1,var(--accent));flex-shrink:0; }
+
+.exp-rows { margin-top:.25rem; }
+.exp-row { display:flex;align-items:center;gap:.85rem;margin-bottom:.65rem; }
+.exp-row-label { font-size:.78rem;color:var(--text);min-width:110px;font-weight:500; }
+.exp-track { flex:1;height:3px;background:var(--border);border-radius:3px;overflow:hidden; }
+.exp-fill {
+  height:100%;border-radius:3px;width:0;
+  background:linear-gradient(90deg,var(--modal-c1,var(--accent)),var(--modal-c2,var(--accent2)));
+  transition:width 1.1s cubic-bezier(.4,0,.2,1);
+}
+.exp-pct { font-size:.68rem;color:var(--muted);min-width:30px;text-align:right;font-family:'JetBrains Mono',monospace; }
+
+.modal-highlights { display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem; }
+.highlight-box {
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:12px;padding:.85rem .75rem;text-align:center;
+  transition:border-color .2s;
+}
+.highlight-box:hover { border-color:var(--modal-c1,var(--accent)); }
+.highlight-num { font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:800;color:var(--modal-c1,var(--accent)); }
+.highlight-lbl { font-size:.65rem;color:var(--muted);margin-top:.15rem;line-height:1.3; }
+
+/* ══════════════════════════════════════════════
+   SERVICES
+══════════════════════════════════════════════ */
+#services { background:var(--bg2); }
+
+.services-grid {
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:1.1rem;
+}
+.service-card {
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:18px;padding:1.85rem;
+  position:relative;overflow:hidden;
+  transition:transform .3s,border-color .3s,box-shadow .3s;
+  group:relative;
+}
+.service-card:hover {
+  transform:translateY(-5px);
+  border-color:var(--border2);
+  box-shadow:0 20px 55px rgba(0,0,0,.28);
+}
+.svc-icon-wrap {
+  width:52px;height:52px;border-radius:13px;
+  display:grid;place-items:center;font-size:1.3rem;
+  margin-bottom:1.2rem;
+  border:1px solid var(--border);background:var(--bg3);
+  position:relative;
+  transition:transform .3s;
+}
+.service-card:hover .svc-icon-wrap { transform:scale(1.08); }
+.svc-title { font-size:.97rem;font-weight:700;margin-bottom:.55rem;letter-spacing:-.01em; }
+.svc-desc { font-size:.84rem;color:var(--muted);font-weight:400;line-height:1.65; }
+.svc-arrow {
+  position:absolute;bottom:1.5rem;right:1.5rem;
+  color:var(--muted);font-size:1rem;opacity:0;
+  transition:opacity .2s,transform .2s;
+}
+.service-card:hover .svc-arrow { opacity:1;transform:translate(2px,-2px);color:var(--accent); }
+
+/* ══════════════════════════════════════════════
+   TECH STACK
+══════════════════════════════════════════════ */
+#techstack { background:var(--bg); }
+
+.marquee-wrap { overflow:hidden;margin-bottom:1rem;padding:.5rem 0; }
+.marquee { display:flex;gap:1rem;width:max-content;animation:marquee 28s linear infinite; }
+.marquee2 { animation-direction:reverse;animation-duration:22s; }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+.tech-chip {
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:100px;padding:.48rem 1.2rem;
+  font-family:'JetBrains Mono',monospace;font-size:.75rem;
+  white-space:nowrap;display:flex;align-items:center;gap:.5rem;
+  color:var(--text);transition:border-color .2s;
+}
+.tech-chip:hover { border-color:var(--border2); }
+.tech-chip em { color:var(--accent);font-style:normal; }
+
+.tech-cats {
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:1rem;margin-top:3.5rem;
+}
+.tech-cat {
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:1.3rem 1.4rem;
+  transition:border-color .2s;
+}
+.tech-cat:hover { border-color:var(--border2); }
+.tc-title {
+  font-size:.65rem;color:var(--accent);letter-spacing:.1em;
+  text-transform:uppercase;font-weight:600;margin-bottom:.85rem;
+  font-family:'JetBrains Mono',monospace;
+}
+.tech-cat ul { list-style:none;display:flex;flex-direction:column;gap:.45rem; }
+.tech-cat li { font-size:.81rem;color:var(--muted);display:flex;align-items:center;gap:.45rem; }
+.tech-cat li::before { content:'▸';color:var(--accent);font-size:.55rem;flex-shrink:0; }
+
+/* ══════════════════════════════════════════════
+   PORTFOLIO
+══════════════════════════════════════════════ */
+#portfolio { background:var(--bg2); }
+
+.portfolio-grid {
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:1.25rem;
+}
+.portfolio-card {
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),border-color .3s,box-shadow .3s;
+}
+.portfolio-card:hover {
+  transform:translateY(-8px);border-color:var(--border2);
+  box-shadow:0 28px 70px rgba(0,0,0,.32);
+}
+.port-thumb {
+  height:190px;display:flex;align-items:center;justify-content:center;
+  font-size:2.8rem;position:relative;overflow:hidden;
+}
+.pt1 { background:linear-gradient(135deg,#080911,rgba(74,242,255,.1)); }
+.pt2 { background:linear-gradient(135deg,#080911,rgba(139,92,246,.12)); }
+.pt3 { background:linear-gradient(135deg,#080911,rgba(52,211,153,.1)); }
+.pt4 { background:linear-gradient(135deg,#080911,rgba(251,191,36,.1)); }
+.port-grid-lines {
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(var(--border) 1px,transparent 1px),
+    linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:32px 32px;
+}
+.port-icon { position:relative;z-index:1;filter:drop-shadow(0 0 20px currentColor); }
+.port-body { padding:1.5rem; }
+.port-tag {
+  display:inline-block;font-size:.65rem;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;
+  padding:.2rem .65rem;border-radius:5px;margin-bottom:.75rem;
+  font-family:'JetBrains Mono',monospace;
+}
+.tag-ai { background:rgba(74,242,255,.1);color:var(--accent); }
+.tag-web { background:rgba(139,92,246,.1);color:var(--accent2); }
+.tag-cloud { background:rgba(251,191,36,.1);color:var(--gold); }
+.tag-auto { background:rgba(52,211,153,.1);color:var(--accent3); }
+.port-title { font-size:1.05rem;font-weight:700;margin-bottom:.5rem;letter-spacing:-.01em; }
+.port-desc { font-size:.83rem;color:var(--muted);font-weight:400;line-height:1.6; }
+.port-techs { display:flex;flex-wrap:wrap;gap:.3rem;margin-top:1rem; }
+.port-tech {
+  font-size:.65rem;font-family:'JetBrains Mono',monospace;
+  color:var(--muted);padding:.15rem .45rem;
+  background:var(--bg3);border-radius:3px;
 }
 
-/* ADMIN */
-#admin-panel{position:fixed;top:0;right:0;bottom:0;width:400px;z-index:200;background:var(--bg);border-left:1px solid var(--border);transform:translateX(100%);transition:transform .35s;display:flex;flex-direction:column;overflow:hidden;}
-#admin-panel.open{transform:translateX(0);}
-.admin-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);background:var(--bg2);}
-.admin-header h3{font-size:.95rem;font-weight:700;display:flex;align-items:center;gap:.5rem;}
-.admin-close{background:none;border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:1rem;display:grid;place-items:center;}
-.admin-close:hover{border-color:var(--accent);color:var(--accent);}
-.admin-body{flex:1;overflow-y:auto;padding:1.5rem;}
-.admin-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;}
-.admin-tab{flex:1;padding:.5rem;background:var(--surface);border:1px solid var(--border);border-radius:6px;font-size:.75rem;font-weight:600;color:var(--muted);cursor:pointer;text-align:center;transition:all .2s;font-family:'Syne',sans-serif;}
-.admin-tab.active{background:var(--accent);border-color:var(--accent);color:#0a0b10;}
-.lead-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem;margin-bottom:.75rem;}
-.lead-name{font-weight:700;font-size:.9rem;margin-bottom:.2rem;}
-.lead-email{font-size:.75rem;color:var(--accent);font-family:'JetBrains Mono',monospace;margin-bottom:.5rem;}
-.lead-project{font-size:.8rem;color:var(--muted);}
-.lead-meta{display:flex;justify-content:space-between;align-items:center;margin-top:.75rem;}
-.lead-time{font-size:.68rem;color:var(--muted);}
-.lead-status{font-size:.65rem;font-weight:700;padding:.2rem .5rem;border-radius:100px;text-transform:uppercase;letter-spacing:.05em;}
-.status-new{background:rgba(0,229,255,.1);color:var(--accent);}
-.status-seen{background:rgba(107,114,128,.1);color:var(--muted);}
-.admin-btn{position:fixed;bottom:2rem;right:2rem;z-index:150;width:52px;height:52px;border-radius:50%;background:var(--accent2);color:white;border:none;cursor:pointer;font-size:1.3rem;display:grid;place-items:center;box-shadow:0 8px 24px rgba(124,58,237,.4);transition:transform .2s;}
-.admin-btn:hover{transform:scale(1.08);}
-.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem;}
-.stat-mini{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center;}
-.stat-mini-num{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--accent);}
-.stat-mini-label{font-size:.7rem;color:var(--muted);}
+/* ══════════════════════════════════════════════
+   ESTIMATOR
+══════════════════════════════════════════════ */
+#estimator { background:var(--bg); }
+
+.estimator-card {
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:24px;padding:3.5rem;max-width:880px;margin:0 auto;
+  position:relative;overflow:hidden;
+}
+.estimator-card::before {
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));
+}
+.estimator-card::after {
+  content:'';position:absolute;bottom:-80px;right:-80px;
+  width:250px;height:250px;border-radius:50%;
+  background:radial-gradient(circle,rgba(139,92,246,.06),transparent 70%);
+  pointer-events:none;
+}
+
+.est-grid { display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem; }
+.est-group label {
+  display:block;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.5rem;font-family:'JetBrains Mono',monospace;
+}
+.est-group select, .est-group input[type=range] {
+  width:100%;background:var(--bg2);border:1px solid var(--border);
+  border-radius:9px;color:var(--text);padding:.7rem 1rem;
+  font-family:'Space Grotesk',sans-serif;font-size:.88rem;
+  outline:none;transition:border-color .2s;
+  appearance:none;-webkit-appearance:none;
+}
+.est-group select:focus { border-color:var(--accent); }
+.est-group input[type=range] { padding:0;border:none;background:transparent;cursor:pointer;height:28px; }
+input[type=range]::-webkit-slider-thumb { appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 10px rgba(74,242,255,.4); }
+input[type=range]::-webkit-slider-runnable-track { height:3px;background:var(--border2);border-radius:3px; }
+
+.checkboxes { display:flex;flex-direction:column;gap:.55rem; }
+.check-item { display:flex;align-items:center;gap:.75rem;cursor:pointer; }
+.check-item input[type=checkbox] {
+  appearance:none;width:18px;height:18px;border:2px solid var(--border2);
+  border-radius:5px;cursor:pointer;position:relative;
+  transition:border-color .2s,background .2s;flex-shrink:0;
+}
+.check-item input[type=checkbox]:checked { background:var(--accent);border-color:var(--accent); }
+.check-item input[type=checkbox]:checked::after {
+  content:'✓';position:absolute;top:-2px;left:2px;
+  font-size:.72rem;color:#080911;font-weight:900;
+}
+.check-item span { font-size:.87rem; }
+
+.est-result {
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:14px;padding:1.75rem;text-align:center;
+  position:relative;overflow:hidden;
+}
+.est-result::before {
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 70% at 50% 100%,rgba(74,242,255,.05),transparent 70%);
+  pointer-events:none;
+}
+.est-range {
+  font-family:'Outfit',sans-serif;font-size:2.4rem;
+  font-weight:800;letter-spacing:-.03em;
+  background:var(--grad-a);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text;
+  position:relative;z-index:1;
+}
+.est-note { font-size:.78rem;color:var(--muted);margin-top:.5rem;position:relative;z-index:1; }
+.est-full { grid-column:1/-1; }
+
+/* ══════════════════════════════════════════════
+   CONTACT
+══════════════════════════════════════════════ */
+#contact { background:var(--bg2); }
+
+.contact-grid { display:grid;grid-template-columns:1fr 1.3fr;gap:5rem;align-items:start; }
+
+.contact-method { display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.5rem; }
+.contact-icon {
+  width:44px;height:44px;border-radius:11px;
+  background:var(--surface);border:1px solid var(--border);
+  display:grid;place-items:center;font-size:1.05rem;flex-shrink:0;margin-top:.1rem;
+}
+.contact-method-label { font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.2rem;font-family:'JetBrains Mono',monospace; }
+.contact-method-val { font-size:.88rem; }
+.contact-method-val a { color:var(--accent);transition:color .2s; }
+.contact-method-val a:hover { color:var(--heading); }
+
+.wa-btn {
+  display:inline-flex;align-items:center;gap:.75rem;
+  background:#25D366;color:white;border:none;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:.83rem;
+  padding:.8rem 1.6rem;border-radius:10px;cursor:pointer;
+  margin-top:2rem;
+  transition:transform .15s,box-shadow .2s;
+}
+.wa-btn:hover { transform:translateY(-2px);box-shadow:0 10px 28px rgba(37,211,102,.32); }
+
+.contact-form-wrap {
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:22px;padding:2.5rem;
+  position:relative;overflow:hidden;
+}
+.contact-form-wrap::before {
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--grad-a);
+}
+
+.form-group { margin-bottom:1.2rem; }
+.form-group label {
+  display:block;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.5rem;font-family:'JetBrains Mono',monospace;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width:100%;background:var(--bg2);border:1px solid var(--border);
+  border-radius:9px;color:var(--text);padding:.75rem 1rem;
+  font-family:'Space Grotesk',sans-serif;font-size:.88rem;
+  outline:none;transition:border-color .2s,box-shadow .2s;resize:vertical;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(74,242,255,.08);
+}
+.form-group textarea { min-height:110px; }
+.form-row { display:grid;grid-template-columns:1fr 1fr;gap:1rem; }
+.form-success {
+  display:none;background:rgba(52,211,153,.08);border:1px solid var(--accent3);
+  border-radius:9px;padding:1rem;color:var(--accent3);
+  text-align:center;font-size:.88rem;margin-top:.75rem;
+}
+
+/* ══════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════ */
+footer {
+  background:var(--bg);
+  border-top:1px solid var(--border);
+  padding:4rem 5vw 2rem;
+}
+.footer-grid {
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:3rem;margin-bottom:3.5rem;
+}
+.footer-brand-logo { margin-bottom:.75rem; }
+.footer-brand p { font-size:.82rem;color:var(--muted);max-width:260px;line-height:1.65;font-weight:400; }
+.footer-col h5 { font-size:.85rem;font-weight:700;margin-bottom:1rem;letter-spacing:-.01em; }
+.footer-col ul { list-style:none;display:flex;flex-direction:column;gap:.5rem; }
+.footer-col li a { font-size:.8rem;color:var(--muted);transition:color .2s; }
+.footer-col li a:hover { color:var(--accent); }
+
+.footer-bottom {
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:2rem;border-top:1px solid var(--border);
+  font-size:.78rem;color:var(--muted);
+}
+.footer-bottom strong { color:var(--accent); }
+
+.socials { display:flex;gap:.6rem;margin-top:1.25rem; }
+.social-btn {
+  width:34px;height:34px;border-radius:9px;
+  background:var(--surface);border:1px solid var(--border);
+  display:grid;place-items:center;font-size:.85rem;cursor:pointer;
+  transition:border-color .2s,color .2s;color:var(--muted);
+  text-decoration:none;
+}
+.social-btn:hover { border-color:var(--accent);color:var(--accent); }
+
+/* ══════════════════════════════════════════════
+   MOBILE MENU
+══════════════════════════════════════════════ */
+.mobile-menu {
+  position:fixed;inset:0;z-index:99;background:var(--bg);
+  padding:80px 5vw 2rem;
+  transform:translateX(100%);transition:transform .32s;
+  display:flex;flex-direction:column;gap:1.5rem;
+}
+.mobile-menu.open { transform:translateX(0); }
+.mobile-menu a { font-size:1.4rem;font-family:'Outfit',sans-serif;font-weight:700;color:var(--text); }
+.mobile-menu a:hover { color:var(--accent); }
+
+/* ══════════════════════════════════════════════
+   ANIMATIONS & REVEAL
+══════════════════════════════════════════════ */
+@keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+.reveal { opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease; }
+.reveal.visible { opacity:1;transform:translateY(0); }
+
+/* ══════════════════════════════════════════════
+   ADMIN
+══════════════════════════════════════════════ */
+#admin-panel {
+  position:fixed;top:0;right:0;bottom:0;width:380px;z-index:200;
+  background:var(--bg);border-left:1px solid var(--border);
+  transform:translateX(100%);transition:transform .35s;
+  display:flex;flex-direction:column;overflow:hidden;
+}
+#admin-panel.open { transform:translateX(0); }
+.admin-header {
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);background:var(--bg2);
+}
+.admin-header h3 { font-size:.9rem;font-weight:700; }
+.admin-close {
+  background:none;border:1px solid var(--border);color:var(--muted);
+  width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:.9rem;
+  display:grid;place-items:center;
+}
+.admin-close:hover { border-color:var(--accent);color:var(--accent); }
+.admin-body { flex:1;overflow-y:auto;padding:1.4rem; }
+.admin-tabs { display:flex;gap:.4rem;margin-bottom:1.4rem; }
+.admin-tab {
+  flex:1;padding:.45rem;background:var(--surface);border:1px solid var(--border);
+  border-radius:6px;font-size:.72rem;font-weight:700;color:var(--muted);
+  cursor:pointer;text-align:center;transition:all .2s;font-family:'Outfit',sans-serif;
+}
+.admin-tab.active { background:var(--accent);border-color:var(--accent);color:#080911; }
+.lead-card {
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:1rem;margin-bottom:.65rem;
+}
+.lead-name { font-weight:700;font-size:.88rem;margin-bottom:.15rem; }
+.lead-email { font-size:.72rem;color:var(--accent);font-family:'JetBrains Mono',monospace;margin-bottom:.45rem; }
+.lead-project { font-size:.78rem;color:var(--muted); }
+.lead-meta { display:flex;justify-content:space-between;align-items:center;margin-top:.65rem; }
+.lead-time { font-size:.65rem;color:var(--muted); }
+.lead-status { font-size:.62rem;font-weight:700;padding:.18rem .5rem;border-radius:100px;text-transform:uppercase;letter-spacing:.05em; }
+.status-new { background:rgba(74,242,255,.1);color:var(--accent); }
+.status-seen { background:rgba(107,114,128,.1);color:var(--muted); }
+.admin-fab {
+  position:fixed;bottom:2rem;right:2rem;z-index:150;
+  width:50px;height:50px;border-radius:50%;
+  background:var(--accent2);color:white;border:none;cursor:pointer;font-size:1.2rem;
+  display:grid;place-items:center;
+  box-shadow:0 10px 28px rgba(139,92,246,.4);
+  transition:transform .2s;
+}
+.admin-fab:hover { transform:scale(1.1); }
+.stats-row { display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:1.4rem; }
+.stat-mini { background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center; }
+.stat-mini-num { font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;color:var(--accent); }
+.stat-mini-label { font-size:.68rem;color:var(--muted);margin-top:.1rem; }
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media(max-width:900px) {
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+  .about-grid { grid-template-columns:1fr;gap:3rem; }
+  .contact-grid { grid-template-columns:1fr; }
+  .footer-grid { grid-template-columns:1fr 1fr;gap:2.5rem; }
+  .est-grid { grid-template-columns:1fr; }
+  .float-badge { right:0;bottom:-1rem; }
+}
+@media(max-width:600px) {
+  .hero-stats { gap:1.75rem;flex-wrap:wrap; }
+  .footer-grid { grid-template-columns:1fr; }
+  .form-row { grid-template-columns:1fr; }
+  .portfolio-grid,.services-grid,.team-grid { grid-template-columns:1fr; }
+  .modal-highlights { grid-template-columns:1fr 1fr; }
+  .modal-hero { flex-direction:column;align-items:flex-start; }
+  .estimator-card { padding:2rem 1.5rem; }
+}
 </style>
 </head>
 <body>
 
-<!-- TEAM MEMBER MODAL -->
+<!-- MODAL -->
 <div class="member-overlay" id="memberOverlay" onclick="handleOverlayClick(event)">
   <div class="member-modal" id="memberModal">
-    <div class="member-modal-top-bar"></div>
+    <div class="modal-top-strip"></div>
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="member-modal-hero">
+    <div class="modal-hero">
       <div class="modal-avatar" id="modalAvatar"></div>
       <div class="modal-info">
         <div class="modal-name" id="modalName"></div>
@@ -372,14 +903,14 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 5vw
         <div class="modal-location">📍 Madhukkarai, Coimbatore</div>
       </div>
     </div>
-    <div class="member-modal-body">
-      <div class="modal-section-title">// About</div>
+    <div class="modal-body">
+      <div class="modal-label">About</div>
       <div class="modal-bio" id="modalBio"></div>
-      <div class="modal-section-title">// Expertise</div>
-      <div class="modal-expertise-bar" id="modalExpertise"></div>
-      <div class="modal-section-title">// Skills</div>
-      <div class="modal-skills-grid" id="modalSkills"></div>
-      <div class="modal-section-title">// Highlights</div>
+      <div class="modal-label">Expertise</div>
+      <div class="exp-rows" id="modalExpertise"></div>
+      <div class="modal-label">Skills</div>
+      <div class="modal-skills" id="modalSkills"></div>
+      <div class="modal-label">Highlights</div>
       <div class="modal-highlights" id="modalHighlights"></div>
     </div>
   </div>
@@ -387,7 +918,11 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 5vw
 
 <!-- NAV -->
 <nav>
-  <div class="logo"><span class="logo-dot"></span>CodeCraft Studio</div>
+  <div class="logo">
+    <img src="logo.png" alt="CoreStack Labs" class="logo-img" onerror="this.style.display='none';document.querySelector('.logo-fallback').style.display='grid'">
+    <div class="logo-icon logo-fallback" style="display:none">⚡</div>
+    CoreStack Labs
+  </div>
   <div class="nav-links">
     <a href="#about">About</a>
     <a href="#team">Team</a>
@@ -397,7 +932,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 5vw
     <a href="#contact">Contact</a>
   </div>
   <div class="nav-actions">
-    <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+    <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme" id="themeBtn">🌙</button>
     <a href="#contact" class="btn-primary">Hire Us</a>
     <div class="hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></div>
   </div>
@@ -413,253 +948,553 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 5vw
   <a href="#contact" onclick="toggleMobile()">Contact</a>
 </div>
 
-<!-- HERO -->
+<!-- ════════════════ HERO ════════════════ -->
 <section id="hero">
-  <div class="hero-mesh"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-badge"><span class="hero-badge-dot"></span>Available for Projects</div>
-  <h1 class="hero-title">Custom Software,<br><span>AI Solutions,</span> &<br><em>Cloud Development</em></h1>
-  <p class="hero-sub">A lean, elite team of engineers building high-performance web apps, AI systems, and cloud infrastructure for startups and enterprises.</p>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+
+  <div class="hero-badge"><span class="badge-pulse"></span>Available for New Projects</div>
+
+  <h1 class="hero-title">
+    Custom Software,<br>
+    <span class="hl-cyan">AI Solutions</span>
+    <span class="line2">&amp; <span class="hl-purple">Cloud Development</span></span>
+  </h1>
+
+  <p class="hero-sub">From Idea to Scalable Product — a lean, elite team of engineers building high-performance web apps, AI systems, and cloud infrastructure for startups and enterprises.</p>
+
   <div class="hero-ctas">
-    <a href="#contact" class="btn-primary btn-lg">Hire Us →</a>
+    <a href="#contact" class="btn-primary btn-lg">Start a Project →</a>
     <a href="#portfolio" class="btn-outline btn-lg">View Portfolio</a>
   </div>
+
   <div class="hero-stats">
-    <div class="stat"><div class="stat-num">25<span>+</span></div><div class="stat-label">Projects Delivered</div></div>
-    <div class="stat"><div class="stat-num">4<span></span></div><div class="stat-label">Expert Engineers</div></div>
-    <div class="stat"><div class="stat-num">98<span>%</span></div><div class="stat-label">Client Satisfaction</div></div>
+    <div class="stat">
+      <div class="stat-num">8<sup>+</sup></div>
+      <div class="stat-label">Projects Delivered</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Expert Engineers</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">98<sup>%</sup></div>
+      <div class="stat-label">Client Satisfaction</div>
+    </div>
   </div>
-  <div class="hero-scroll">Scroll<div class="scroll-line"></div></div>
 </section>
 
-<!-- ABOUT -->
+<!-- ════════════════ ABOUT ════════════════ -->
 <section id="about">
   <div class="about-grid">
-    <div class="about-visual reveal">
-      <div class="about-card">
-        <div class="about-icons">
-          <div class="icon-box">🧠</div><div class="icon-box">☁️</div>
-          <div class="icon-box">⚙️</div><div class="icon-box">📊</div>
+    <div class="about-card-wrap reveal">
+      <div class="code-card">
+        <div class="code-card-bar">
+          <span class="dot dot-r"></span>
+          <span class="dot dot-y"></span>
+          <span class="dot dot-g"></span>
+          <span class="code-card-filename">team.config.ts</span>
         </div>
-        <p style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--muted);line-height:1.8;">
-          <span style="color:var(--accent)">const</span> team = {<br>
-          &nbsp;&nbsp;size: <span style="color:var(--accent3)">4</span>,<br>
-          &nbsp;&nbsp;expertise: <span style="color:#f59e0b">'full-stack'</span>,<br>
-          &nbsp;&nbsp;passion: <span style="color:var(--accent)">Infinity</span>,<br>
-          &nbsp;&nbsp;delivers: <span style="color:var(--accent3)">true</span><br>
-          }
-        </p>
-        <div class="about-float">✓ On-time delivery<br>✓ Clean, scalable code<br>✓ Ongoing support</div>
+        <div class="code-card-body">
+          <span class="tk-k">const</span> <span class="tk-s">config</span> = {<br>
+          &nbsp;&nbsp;<span class="tk-prop">name</span>: <span class="tk-str">'CoreStack Labs'</span>,<br>
+          &nbsp;&nbsp;<span class="tk-prop">tagline</span>: <span class="tk-str">'From Idea to Scalable Product'</span>,<br>
+          &nbsp;&nbsp;<span class="tk-prop">size</span>: <span class="tk-n">4</span>,<br>
+          &nbsp;&nbsp;<span class="tk-prop">type</span>: <span class="tk-str">'elite-freelance'</span>,<br>
+          &nbsp;&nbsp;<span class="tk-prop">stack</span>: [<span class="tk-str">'AI'</span>, <span class="tk-str">'Cloud'</span>, <span class="tk-str">'Web'</span>],<br>
+          &nbsp;&nbsp;<span class="tk-prop">delivers</span>: <span class="tk-b">true</span>,<br>
+          &nbsp;&nbsp;<span class="tk-prop">passion</span>: <span class="tk-b">Infinity</span>,<br>
+          &nbsp;&nbsp;<span class="tk-prop">location</span>: <span class="tk-str">'Coimbatore, IN'</span><br>
+          } <span class="tk-k">as</span> <span class="tk-s">const</span>;<br><br>
+          <span class="tk-c">// Every project — owned end-to-end.</span>
+        </div>
+      </div>
+      <div class="float-badge">
+        <div class="float-badge-title">Our Promise</div>
+        <div class="float-badge-item">On-time delivery</div>
+        <div class="float-badge-item">Clean, scalable code</div>
+        <div class="float-badge-item">Ongoing support</div>
       </div>
     </div>
+
     <div class="about-text reveal">
-      <div class="section-label">About Us</div>
+      <div class="section-eyebrow">About Us</div>
       <h2 class="section-title">Built by engineers who care about quality</h2>
       <p>We are a focused team of four specialized engineers based in Tamil Nadu, India, delivering enterprise-grade software without the overhead of a large agency. We move fast, think deeply, and build things that last.</p>
       <p>From AI-powered vision systems to cloud-native web platforms, we bring hands-on expertise across the full technology stack — handling everything from architecture to deployment.</p>
-      <div class="expertise-list">
-        <span class="expertise-pill">Web Development</span>
-        <span class="expertise-pill">AI & Computer Vision</span>
-        <span class="expertise-pill">Industrial Automation</span>
-        <span class="expertise-pill">Cloud Architecture</span>
-        <span class="expertise-pill">API Design</span>
-        <span class="expertise-pill">DevOps</span>
-        <span class="expertise-pill">Data Dashboards</span>
-        <span class="expertise-pill">Python / FastAPI</span>
+      <div class="pill-group">
+        <span class="pill">Web Development</span>
+        <span class="pill">AI & Computer Vision</span>
+        <span class="pill">Industrial Automation</span>
+        <span class="pill">Cloud Architecture</span>
+        <span class="pill">API Design</span>
+        <span class="pill">DevOps</span>
+        <span class="pill">Data Dashboards</span>
+        <span class="pill">Python / FastAPI</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TEAM -->
+<!-- ════════════════ TEAM ════════════════ -->
 <section id="team">
-  <div class="section-label">Our Team</div>
+  <div class="section-eyebrow">Our Team</div>
   <h2 class="section-title reveal">Meet the engineers</h2>
   <p class="section-sub reveal">Click any card to learn more about each team member.</p>
+
   <div class="team-grid">
+    <!-- Thamaraiselvan M -->
     <div class="team-card reveal" onclick="openModal('thamarai')">
       <span class="team-num">01</span>
-      <div class="avatar av1" style="overflow:hidden;padding:0"><img src="thamarai.jpg" alt="Thamaraiselvan M" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.outerHTML='TM'"></div>
+      <div class="avatar av1"><img src="thamarai.jpg" alt="Thamaraiselvan M" onerror="this.outerHTML='TM'"></div>
       <div class="team-name">Thamaraiselvan M</div>
       <div class="team-role">Backend & AI Developer</div>
       <div class="skill-tags">
         <span class="skill-tag">Node.js</span><span class="skill-tag">Python</span>
-        <span class="skill-tag">Computer Vision</span><span class="skill-tag">Automation</span>
+        <span class="skill-tag">Automation</span><span class="skill-tag">4+ yrs</span>
       </div>
-      <div class="team-card-hint">tap to view profile →</div>
+      <div class="card-cta">view profile →</div>
     </div>
+
+    <!-- Naveen Kumar R -->
     <div class="team-card reveal" onclick="openModal('naveen')">
       <span class="team-num">02</span>
-      <div class="avatar av2" style="overflow:hidden;padding:0"><img src="naveen.jpg" alt="Naveen Kumar R" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.outerHTML='NR'"></div>
+      <div class="avatar av2"><img src="naveen.jpg" alt="Naveen Kumar R" onerror="this.outerHTML='NR'"></div>
       <div class="team-name">Naveen Kumar R</div>
       <div class="team-role">Full Stack Developer</div>
       <div class="skill-tags">
-        <span class="skill-tag">Node.js</span><span class="skill-tag">React</span>
-        <span class="skill-tag">PostgreSQL</span><span class="skill-tag">REST APIs</span>
+        <span class="skill-tag">React</span><span class="skill-tag">Node.js</span>
+        <span class="skill-tag">Web Apps</span><span class="skill-tag">3+ yrs</span>
       </div>
-      <div class="team-card-hint">tap to view profile →</div>
+      <div class="card-cta">view profile →</div>
     </div>
+
+    <!-- Kesavaraja J -->
     <div class="team-card reveal" onclick="openModal('kesavan')">
       <span class="team-num">03</span>
-      <div class="avatar av3" style="overflow:hidden;padding:0"><img src="kesavan.jpg" alt="Kesavaraja J" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.outerHTML='KJ'"></div>
+      <div class="avatar av3"><img src="kesavan.jpg" alt="Kesavaraja J" onerror="this.outerHTML='KJ'"></div>
       <div class="team-name">Kesavaraja J</div>
       <div class="team-role">Frontend & API Developer</div>
       <div class="skill-tags">
-        <span class="skill-tag">Node.js</span><span class="skill-tag">React</span>
-        <span class="skill-tag">UI/UX</span><span class="skill-tag">API Design</span>
+        <span class="skill-tag">React</span><span class="skill-tag">API Dev</span>
+        <span class="skill-tag">Clean UI</span><span class="skill-tag">3+ yrs</span>
       </div>
-      <div class="team-card-hint">tap to view profile →</div>
+      <div class="card-cta">view profile →</div>
     </div>
+
+    <!-- Dhinesh -->
     <div class="team-card reveal" onclick="openModal('dhinesh')">
       <span class="team-num">04</span>
-      <div class="avatar av4" style="overflow:hidden;padding:0"><img src="dhinesh.jpg" alt="Dhinesh" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.outerHTML='DH'"></div>
+      <div class="avatar av4"><img src="dhinesh.jpg" alt="Dhinesh" onerror="this.outerHTML='DH'"></div>
       <div class="team-name">Dhinesh</div>
       <div class="team-role">Cloud Engineer</div>
       <div class="skill-tags">
-        <span class="skill-tag">AWS</span><span class="skill-tag">Cloud Architecture</span>
-        <span class="skill-tag">Docker</span><span class="skill-tag">CI/CD</span>
+        <span class="skill-tag">AWS</span><span class="skill-tag">Deployment</span>
+        <span class="skill-tag">Cloud Arch</span><span class="skill-tag">2+ yrs</span>
       </div>
-      <div class="team-card-hint">tap to view profile →</div>
+      <div class="card-cta">view profile →</div>
     </div>
   </div>
 </section>
 
-<!-- SERVICES -->
+<!-- ════════════════ SERVICES ════════════════ -->
 <section id="services">
-  <div class="section-label">Services</div>
+  <div class="section-eyebrow">Services</div>
   <h2 class="section-title reveal">What we build</h2>
   <p class="section-sub reveal">End-to-end development from concept to cloud deployment.</p>
+
   <div class="services-grid">
-    <div class="service-card reveal"><div class="service-icon">🌐</div><div class="service-title">Web Application Development</div><div class="service-desc">Full-stack React + Node.js applications with modern UI, real-time features, and seamless API integrations.</div><span class="service-arrow">↗</span></div>
-    <div class="service-card reveal"><div class="service-icon">👁️</div><div class="service-title">AI & Computer Vision</div><div class="service-desc">Custom ML models, object detection, image classification, and intelligent automation pipelines using Python & OpenCV.</div><span class="service-arrow">↗</span></div>
-    <div class="service-card reveal"><div class="service-icon">⚙️</div><div class="service-title">Automation & Industrial Software</div><div class="service-desc">Smart automation workflows, process control systems, and industrial-grade monitoring dashboards.</div><span class="service-arrow">↗</span></div>
-    <div class="service-card reveal"><div class="service-icon">☁️</div><div class="service-title">Cloud Deployment & DevOps</div><div class="service-desc">AWS infrastructure design, Docker containerization, CI/CD pipelines, and zero-downtime deployment strategies.</div><span class="service-arrow">↗</span></div>
-    <div class="service-card reveal"><div class="service-icon">🔌</div><div class="service-title">API Development</div><div class="service-desc">RESTful and GraphQL APIs built with FastAPI or Node.js. Documented, tested, and production-ready.</div><span class="service-arrow">↗</span></div>
-    <div class="service-card reveal"><div class="service-icon">📊</div><div class="service-title">Dashboard & Reporting Systems</div><div class="service-desc">Real-time analytics dashboards, custom reporting engines, and data visualization for business intelligence.</div><span class="service-arrow">↗</span></div>
+    <div class="service-card reveal">
+      <div class="svc-icon-wrap">🌐</div>
+      <div class="svc-title">Web Application Development</div>
+      <div class="svc-desc">Full-stack React + Node.js applications with modern UI, real-time features, and seamless API integrations.</div>
+      <span class="svc-arrow">↗</span>
+    </div>
+    <div class="service-card reveal">
+      <div class="svc-icon-wrap">👁️</div>
+      <div class="svc-title">AI & Computer Vision</div>
+      <div class="svc-desc">Custom ML models, object detection, image classification, and intelligent automation pipelines using Python & OpenCV.</div>
+      <span class="svc-arrow">↗</span>
+    </div>
+    <div class="service-card reveal">
+      <div class="svc-icon-wrap">⚙️</div>
+      <div class="svc-title">Automation & Industrial Software</div>
+      <div class="svc-desc">Smart automation workflows, process control systems, and industrial-grade monitoring dashboards.</div>
+      <span class="svc-arrow">↗</span>
+    </div>
+    <div class="service-card reveal">
+      <div class="svc-icon-wrap">☁️</div>
+      <div class="svc-title">Cloud Deployment & DevOps</div>
+      <div class="svc-desc">AWS infrastructure design, Docker containerization, CI/CD pipelines, and zero-downtime deployment strategies.</div>
+      <span class="svc-arrow">↗</span>
+    </div>
+    <div class="service-card reveal">
+      <div class="svc-icon-wrap">🔌</div>
+      <div class="svc-title">API Development</div>
+      <div class="svc-desc">RESTful and GraphQL APIs built with FastAPI or Node.js — documented, tested, and production-ready.</div>
+      <span class="svc-arrow">↗</span>
+    </div>
+    <div class="service-card reveal">
+      <div class="svc-icon-wrap">📊</div>
+      <div class="svc-title">Dashboard & Reporting Systems</div>
+      <div class="svc-desc">Real-time analytics dashboards, custom reporting engines, and data visualization for business intelligence.</div>
+      <span class="svc-arrow">↗</span>
+    </div>
   </div>
 </section>
 
-<!-- TECH STACK -->
+<!-- ════════════════ TECH STACK ════════════════ -->
 <section id="techstack">
-  <div class="section-label">Tech Stack</div>
+  <div class="section-eyebrow">Tech Stack</div>
   <h2 class="section-title reveal">Technologies we use</h2>
-  <div class="tech-marquee-wrap reveal">
-    <div class="tech-marquee">
-      <span class="tech-pill"><span>⚛</span> React</span><span class="tech-pill"><span>🟢</span> Node.js</span><span class="tech-pill"><span>🐍</span> Python</span><span class="tech-pill"><span>⚡</span> FastAPI</span><span class="tech-pill"><span>🐘</span> PostgreSQL</span><span class="tech-pill"><span>🍃</span> MongoDB</span><span class="tech-pill"><span>☁️</span> AWS</span><span class="tech-pill"><span>🐳</span> Docker</span><span class="tech-pill"><span>👁</span> OpenCV</span><span class="tech-pill"><span>🤖</span> TensorFlow</span>
-      <span class="tech-pill"><span>⚛</span> React</span><span class="tech-pill"><span>🟢</span> Node.js</span><span class="tech-pill"><span>🐍</span> Python</span><span class="tech-pill"><span>⚡</span> FastAPI</span><span class="tech-pill"><span>🐘</span> PostgreSQL</span><span class="tech-pill"><span>🍃</span> MongoDB</span><span class="tech-pill"><span>☁️</span> AWS</span><span class="tech-pill"><span>🐳</span> Docker</span><span class="tech-pill"><span>👁</span> OpenCV</span><span class="tech-pill"><span>🤖</span> TensorFlow</span>
+
+  <div class="marquee-wrap reveal">
+    <div class="marquee">
+      <span class="tech-chip"><em>⚛</em> React</span>
+      <span class="tech-chip"><em>🟢</em> Node.js</span>
+      <span class="tech-chip"><em>🐍</em> Python</span>
+      <span class="tech-chip"><em>⚡</em> FastAPI</span>
+      <span class="tech-chip"><em>🐘</em> PostgreSQL</span>
+      <span class="tech-chip"><em>🍃</em> MongoDB</span>
+      <span class="tech-chip"><em>☁️</em> AWS</span>
+      <span class="tech-chip"><em>🐳</em> Docker</span>
+      <span class="tech-chip"><em>👁</em> OpenCV</span>
+      <span class="tech-chip"><em>🤖</em> TensorFlow</span>
+      <span class="tech-chip"><em>⚛</em> React</span>
+      <span class="tech-chip"><em>🟢</em> Node.js</span>
+      <span class="tech-chip"><em>🐍</em> Python</span>
+      <span class="tech-chip"><em>⚡</em> FastAPI</span>
+      <span class="tech-chip"><em>🐘</em> PostgreSQL</span>
+      <span class="tech-chip"><em>🍃</em> MongoDB</span>
+      <span class="tech-chip"><em>☁️</em> AWS</span>
+      <span class="tech-chip"><em>🐳</em> Docker</span>
+      <span class="tech-chip"><em>👁</em> OpenCV</span>
+      <span class="tech-chip"><em>🤖</em> TensorFlow</span>
     </div>
   </div>
-  <div class="tech-marquee-wrap reveal">
-    <div class="tech-marquee tech-marquee2">
-      <span class="tech-pill"><span>🔄</span> GitHub Actions</span><span class="tech-pill"><span>📡</span> WebSockets</span><span class="tech-pill"><span>🔐</span> JWT / OAuth</span><span class="tech-pill"><span>📦</span> Redis</span><span class="tech-pill"><span>🌐</span> Nginx</span><span class="tech-pill"><span>📈</span> Chart.js</span><span class="tech-pill"><span>🔷</span> TypeScript</span><span class="tech-pill"><span>🧪</span> Jest</span>
-      <span class="tech-pill"><span>🔄</span> GitHub Actions</span><span class="tech-pill"><span>📡</span> WebSockets</span><span class="tech-pill"><span>🔐</span> JWT / OAuth</span><span class="tech-pill"><span>📦</span> Redis</span><span class="tech-pill"><span>🌐</span> Nginx</span><span class="tech-pill"><span>📈</span> Chart.js</span><span class="tech-pill"><span>🔷</span> TypeScript</span><span class="tech-pill"><span>🧪</span> Jest</span>
+
+  <div class="marquee-wrap reveal">
+    <div class="marquee marquee2">
+      <span class="tech-chip"><em>🔄</em> GitHub Actions</span>
+      <span class="tech-chip"><em>📡</em> WebSockets</span>
+      <span class="tech-chip"><em>🔐</em> JWT / OAuth</span>
+      <span class="tech-chip"><em>📦</em> Redis</span>
+      <span class="tech-chip"><em>🌐</em> Nginx</span>
+      <span class="tech-chip"><em>📈</em> Chart.js</span>
+      <span class="tech-chip"><em>🔷</em> TypeScript</span>
+      <span class="tech-chip"><em>🧪</em> Jest</span>
+      <span class="tech-chip"><em>🔄</em> GitHub Actions</span>
+      <span class="tech-chip"><em>📡</em> WebSockets</span>
+      <span class="tech-chip"><em>🔐</em> JWT / OAuth</span>
+      <span class="tech-chip"><em>📦</em> Redis</span>
+      <span class="tech-chip"><em>🌐</em> Nginx</span>
+      <span class="tech-chip"><em>📈</em> Chart.js</span>
+      <span class="tech-chip"><em>🔷</em> TypeScript</span>
+      <span class="tech-chip"><em>🧪</em> Jest</span>
     </div>
   </div>
-  <div class="tech-categories reveal">
-    <div class="tech-cat"><div class="tech-cat-title">Frontend</div><ul><li>React / Next.js</li><li>TypeScript</li><li>Tailwind CSS</li><li>Chart.js / D3</li></ul></div>
-    <div class="tech-cat"><div class="tech-cat-title">Backend</div><ul><li>Node.js / Express</li><li>Python / FastAPI</li><li>REST & GraphQL</li><li>WebSockets</li></ul></div>
-    <div class="tech-cat"><div class="tech-cat-title">Database</div><ul><li>PostgreSQL</li><li>MongoDB</li><li>Redis</li><li>Prisma ORM</li></ul></div>
-    <div class="tech-cat"><div class="tech-cat-title">AI / ML</div><ul><li>OpenCV</li><li>TensorFlow</li><li>scikit-learn</li><li>PyTorch</li></ul></div>
-    <div class="tech-cat"><div class="tech-cat-title">Cloud & DevOps</div><ul><li>AWS (EC2, S3, RDS)</li><li>Docker</li><li>GitHub Actions</li><li>Nginx / PM2</li></ul></div>
+
+  <div class="tech-cats reveal">
+    <div class="tech-cat">
+      <div class="tc-title">Frontend</div>
+      <ul><li>React / Next.js</li><li>TypeScript</li><li>Tailwind CSS</li><li>Chart.js / D3</li></ul>
+    </div>
+    <div class="tech-cat">
+      <div class="tc-title">Backend</div>
+      <ul><li>Node.js / Express</li><li>Python / FastAPI</li><li>REST & GraphQL</li><li>WebSockets</li></ul>
+    </div>
+    <div class="tech-cat">
+      <div class="tc-title">Database</div>
+      <ul><li>PostgreSQL</li><li>MongoDB</li><li>Redis</li><li>Prisma ORM</li></ul>
+    </div>
+    <div class="tech-cat">
+      <div class="tc-title">AI / ML</div>
+      <ul><li>OpenCV</li><li>TensorFlow</li><li>scikit-learn</li><li>PyTorch</li></ul>
+    </div>
+    <div class="tech-cat">
+      <div class="tc-title">Cloud & DevOps</div>
+      <ul><li>AWS (EC2, S3, RDS)</li><li>Docker</li><li>GitHub Actions</li><li>Nginx / PM2</li></ul>
+    </div>
   </div>
 </section>
 
-<!-- PORTFOLIO -->
+<!-- ════════════════ PORTFOLIO ════════════════ -->
 <section id="portfolio">
-  <div class="section-label">Portfolio</div>
+  <div class="section-eyebrow">Portfolio</div>
   <h2 class="section-title reveal">Selected work</h2>
   <p class="section-sub reveal">A snapshot of systems we've designed, built, and shipped.</p>
+
   <div class="portfolio-grid">
-    <div class="portfolio-card reveal"><div class="portfolio-img p1"><div class="portfolio-img-grid"></div><span style="position:relative;z-index:1">👁️</span></div><div class="portfolio-body"><span class="portfolio-tag tag-ai">AI / Vision</span><div class="portfolio-title">Industrial Defect Detection System</div><div class="portfolio-desc">Real-time computer vision pipeline that detects surface defects on manufacturing lines with 97%+ accuracy using custom-trained CNN models.</div><div class="portfolio-techs"><span class="portfolio-tech">Python</span><span class="portfolio-tech">OpenCV</span><span class="portfolio-tech">TensorFlow</span><span class="portfolio-tech">FastAPI</span><span class="portfolio-tech">React</span></div></div></div>
-    <div class="portfolio-card reveal"><div class="portfolio-img p2"><div class="portfolio-img-grid"></div><span style="position:relative;z-index:1">📊</span></div><div class="portfolio-body"><span class="portfolio-tag tag-web">Web App</span><div class="portfolio-title">Enterprise Analytics Dashboard</div><div class="portfolio-desc">Multi-tenant SaaS reporting platform with real-time KPI tracking, custom chart builder, and role-based access control for 500+ users.</div><div class="portfolio-techs"><span class="portfolio-tech">React</span><span class="portfolio-tech">Node.js</span><span class="portfolio-tech">PostgreSQL</span><span class="portfolio-tech">Chart.js</span><span class="portfolio-tech">AWS</span></div></div></div>
-    <div class="portfolio-card reveal"><div class="portfolio-img p3"><div class="portfolio-img-grid"></div><span style="position:relative;z-index:1">☁️</span></div><div class="portfolio-body"><span class="portfolio-tag tag-cloud">Cloud</span><div class="portfolio-title">Serverless Microservices Migration</div><div class="portfolio-desc">Migrated a monolithic e-commerce backend to AWS Lambda microservices, reducing infrastructure costs by 60% and improving response times by 3×.</div><div class="portfolio-techs"><span class="portfolio-tech">AWS Lambda</span><span class="portfolio-tech">API Gateway</span><span class="portfolio-tech">DynamoDB</span><span class="portfolio-tech">Docker</span></div></div></div>
-    <div class="portfolio-card reveal"><div class="portfolio-img p4"><div class="portfolio-img-grid"></div><span style="position:relative;z-index:1">⚙️</span></div><div class="portfolio-body"><span class="portfolio-tag tag-auto">Automation</span><div class="portfolio-title">Smart Factory Monitoring Platform</div><div class="portfolio-desc">IoT-connected automation platform for live machine monitoring, predictive maintenance alerts, and OEE reporting across 12 production lines.</div><div class="portfolio-techs"><span class="portfolio-tech">Node.js</span><span class="portfolio-tech">MQTT</span><span class="portfolio-tech">InfluxDB</span><span class="portfolio-tech">React</span><span class="portfolio-tech">WebSockets</span></div></div></div>
+    <div class="portfolio-card reveal">
+      <div class="port-thumb pt1"><div class="port-grid-lines"></div><span class="port-icon">👁️</span></div>
+      <div class="port-body">
+        <span class="port-tag tag-ai">AI / Vision</span>
+        <div class="port-title">Industrial Defect Detection System</div>
+        <div class="port-desc">Real-time computer vision pipeline detecting surface defects on manufacturing lines with 97%+ accuracy using custom-trained CNN models.</div>
+        <div class="port-techs"><span class="port-tech">Python</span><span class="port-tech">OpenCV</span><span class="port-tech">TensorFlow</span><span class="port-tech">FastAPI</span><span class="port-tech">React</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal">
+      <div class="port-thumb pt2"><div class="port-grid-lines"></div><span class="port-icon">📊</span></div>
+      <div class="port-body">
+        <span class="port-tag tag-web">Web App</span>
+        <div class="port-title">Enterprise Analytics Dashboard</div>
+        <div class="port-desc">Multi-tenant SaaS reporting platform with real-time KPI tracking, custom chart builder, and role-based access control for 500+ users.</div>
+        <div class="port-techs"><span class="port-tech">React</span><span class="port-tech">Node.js</span><span class="port-tech">PostgreSQL</span><span class="port-tech">Chart.js</span><span class="port-tech">AWS</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal">
+      <div class="port-thumb pt3"><div class="port-grid-lines"></div><span class="port-icon">☁️</span></div>
+      <div class="port-body">
+        <span class="port-tag tag-cloud">Cloud</span>
+        <div class="port-title">Serverless Microservices Migration</div>
+        <div class="port-desc">Migrated a monolithic e-commerce backend to AWS Lambda microservices, reducing infrastructure costs by 60% and improving response times by 3×.</div>
+        <div class="port-techs"><span class="port-tech">AWS Lambda</span><span class="port-tech">API Gateway</span><span class="port-tech">DynamoDB</span><span class="port-tech">Docker</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal">
+      <div class="port-thumb pt4"><div class="port-grid-lines"></div><span class="port-icon">⚙️</span></div>
+      <div class="port-body">
+        <span class="port-tag tag-auto">Automation</span>
+        <div class="port-title">Smart Factory Monitoring Platform</div>
+        <div class="port-desc">IoT-connected automation platform for live machine monitoring, predictive maintenance alerts, and OEE reporting across 12 production lines.</div>
+        <div class="port-techs"><span class="port-tech">Node.js</span><span class="port-tech">MQTT</span><span class="port-tech">InfluxDB</span><span class="port-tech">React</span><span class="port-tech">WebSockets</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal">
+      <div class="port-thumb pt1"><div class="port-grid-lines"></div><span class="port-icon">🤖</span></div>
+      <div class="port-body">
+        <span class="port-tag tag-ai">AI / ML</span>
+        <div class="port-title">Intelligent Chatbot Platform</div>
+        <div class="port-desc">NLP-powered customer support chatbot integrated with CRM, handling 80% of support queries autonomously with context-aware responses.</div>
+        <div class="port-techs"><span class="port-tech">Python</span><span class="port-tech">FastAPI</span><span class="port-tech">React</span><span class="port-tech">MongoDB</span><span class="port-tech">Node.js</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal">
+      <div class="port-thumb pt2"><div class="port-grid-lines"></div><span class="port-icon">🛒</span></div>
+      <div class="port-body">
+        <span class="port-tag tag-web">Web App</span>
+        <div class="port-title">B2B E-Commerce Portal</div>
+        <div class="port-desc">Custom wholesale ordering platform with dynamic pricing, inventory sync, and multi-tier approval workflows for 200+ business clients.</div>
+        <div class="port-techs"><span class="port-tech">React</span><span class="port-tech">Node.js</span><span class="port-tech">PostgreSQL</span><span class="port-tech">Redis</span><span class="port-tech">AWS</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal">
+      <div class="port-thumb pt3"><div class="port-grid-lines"></div><span class="port-icon">📡</span></div>
+      <div class="port-body">
+        <span class="port-tag tag-auto">Automation</span>
+        <div class="port-title">Real-Time Fleet Tracking System</div>
+        <div class="port-desc">GPS-based vehicle tracking with live dashboards, geofencing alerts, route optimization, and driver performance analytics.</div>
+        <div class="port-techs"><span class="port-tech">Node.js</span><span class="port-tech">WebSockets</span><span class="port-tech">MongoDB</span><span class="port-tech">React</span><span class="port-tech">AWS</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal">
+      <div class="port-thumb pt4"><div class="port-grid-lines"></div><span class="port-icon">🔐</span></div>
+      <div class="port-body">
+        <span class="port-tag tag-cloud">Cloud</span>
+        <div class="port-title">Secure Document Management System</div>
+        <div class="port-desc">Enterprise document vault with role-based access, version control, digital signatures, and automated compliance reporting on AWS.</div>
+        <div class="port-techs"><span class="port-tech">React</span><span class="port-tech">Node.js</span><span class="port-tech">AWS S3</span><span class="port-tech">PostgreSQL</span><span class="port-tech">Docker</span></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ESTIMATOR -->
+<!-- ════════════════ ESTIMATOR ════════════════ -->
 <section id="estimator">
-  <div class="section-label">Project Estimator</div>
+  <div class="section-eyebrow" style="justify-content:center">Project Estimator</div>
   <h2 class="section-title reveal" style="text-align:center">Get a quick estimate</h2>
   <p class="section-sub reveal" style="text-align:center;margin:0 auto 2.5rem">Fill in your project details and we'll generate a ballpark cost.</p>
-  <div class="estimator-wrap reveal">
-    <div class="estimator-grid">
-      <div class="est-group"><label>Project Type</label><select id="projType" onchange="calcEstimate()"><option value="web">Web Application</option><option value="ai">AI / Computer Vision</option><option value="cloud">Cloud Infrastructure</option><option value="auto">Automation System</option><option value="api">API Development</option><option value="dash">Dashboard / Reporting</option></select></div>
-      <div class="est-group"><label>Timeline</label><select id="timeline" onchange="calcEstimate()"><option value="1">1–2 months</option><option value="1.5">2–3 months</option><option value="2">3–4 months</option><option value="3">4–6 months</option></select></div>
-      <div class="est-group"><label>Team Size Needed — <span id="teamVal">2</span> engineers</label><input type="range" min="1" max="4" value="2" id="teamSize" oninput="document.getElementById('teamVal').textContent=this.value; calcEstimate()" /></div>
-      <div class="est-group"><label>Complexity</label><select id="complexity" onchange="calcEstimate()"><option value="1">Simple (MVP / Prototype)</option><option value="1.5">Medium (Standard Project)</option><option value="2.5">Complex (Enterprise Grade)</option></select></div>
-      <div class="est-group est-full"><label>Additional Features</label><div class="checkboxes" id="extras"><label class="check-item"><input type="checkbox" value="500" onchange="calcEstimate()"><span>Authentication & User Management</span></label><label class="check-item"><input type="checkbox" value="800" onchange="calcEstimate()"><span>Admin Panel / CMS</span></label><label class="check-item"><input type="checkbox" value="1200" onchange="calcEstimate()"><span>AI / ML Integration</span></label><label class="check-item"><input type="checkbox" value="600" onchange="calcEstimate()"><span>Cloud Deployment & CI/CD</span></label><label class="check-item"><input type="checkbox" value="400" onchange="calcEstimate()"><span>3rd Party API Integrations</span></label></div></div>
-      <div class="est-group est-full"><div class="estimate-result"><div class="estimate-range" id="estimateOutput">₹1,50,000 – ₹2,80,000</div><div class="estimate-note">Estimated project cost (INR). Final quote after discovery call.</div></div></div>
+
+  <div class="estimator-card reveal">
+    <div class="est-grid">
+      <div class="est-group">
+        <label>Project Type</label>
+        <select id="projType" onchange="calcEstimate()">
+          <option value="web">Web Application</option>
+          <option value="ai">AI / Computer Vision</option>
+          <option value="cloud">Cloud Infrastructure</option>
+          <option value="auto">Automation System</option>
+          <option value="api">API Development</option>
+          <option value="dash">Dashboard / Reporting</option>
+        </select>
+      </div>
+      <div class="est-group">
+        <label>Timeline</label>
+        <select id="timeline" onchange="calcEstimate()">
+          <option value="1">1–2 months</option>
+          <option value="1.5">2–3 months</option>
+          <option value="2">3–4 months</option>
+          <option value="3">4–6 months</option>
+        </select>
+      </div>
+      <div class="est-group">
+        <label>Team Size — <span id="teamVal">2</span> engineers</label>
+        <input type="range" min="1" max="4" value="2" id="teamSize"
+          oninput="document.getElementById('teamVal').textContent=this.value;calcEstimate()" />
+      </div>
+      <div class="est-group">
+        <label>Complexity</label>
+        <select id="complexity" onchange="calcEstimate()">
+          <option value="1">Simple (MVP / Prototype)</option>
+          <option value="1.5">Medium (Standard Project)</option>
+          <option value="2.5">Complex (Enterprise Grade)</option>
+        </select>
+      </div>
+      <div class="est-group est-full">
+        <label>Additional Features</label>
+        <div class="checkboxes" id="extras">
+          <label class="check-item"><input type="checkbox" value="500" onchange="calcEstimate()"><span>Authentication & User Management</span></label>
+          <label class="check-item"><input type="checkbox" value="800" onchange="calcEstimate()"><span>Admin Panel / CMS</span></label>
+          <label class="check-item"><input type="checkbox" value="1200" onchange="calcEstimate()"><span>AI / ML Integration</span></label>
+          <label class="check-item"><input type="checkbox" value="600" onchange="calcEstimate()"><span>Cloud Deployment & CI/CD</span></label>
+          <label class="check-item"><input type="checkbox" value="400" onchange="calcEstimate()"><span>3rd Party API Integrations</span></label>
+        </div>
+      </div>
+      <div class="est-group est-full">
+        <div class="est-result">
+          <div class="est-range" id="estimateOutput">₹1,50,000 – ₹2,80,000</div>
+          <div class="est-note">Estimated project cost (INR). Final quote after discovery call.</div>
+        </div>
+      </div>
     </div>
-    <div style="text-align:center;margin-top:1rem"><a href="#contact" class="btn-primary">Get Exact Quote →</a></div>
+    <div style="text-align:center;margin-top:.5rem">
+      <a href="#contact" class="btn-primary btn-lg">Get Exact Quote →</a>
+    </div>
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section id="testimonials">
-  <div class="section-label">Testimonials</div>
-  <h2 class="section-title reveal">What clients say</h2>
-  <div class="testi-grid">
-    <div class="testi-card reveal"><div class="stars">★★★★★</div><div class="testi-quote">"</div><div class="testi-text">The team delivered a production-ready computer vision system in 6 weeks. The accuracy exceeded our expectations and integration was seamless. Highly recommend for any AI project.</div><div class="testi-author"><div class="testi-av" style="color:var(--accent)">RK</div><div><div class="testi-name">Ramesh K.</div><div class="testi-company">CTO, AutoPrecision Industries</div></div></div></div>
-    <div class="testi-card reveal"><div class="stars">★★★★★</div><div class="testi-quote">"</div><div class="testi-text">Our AWS migration was flawless. Infrastructure costs dropped by 55% and the new architecture handles 10× our previous traffic. Professional team with great communication.</div><div class="testi-author"><div class="testi-av" style="color:var(--accent2)">SP</div><div><div class="testi-name">Sunita P.</div><div class="testi-company">Founder, ShopEase Platform</div></div></div></div>
-    <div class="testi-card reveal"><div class="stars">★★★★★</div><div class="testi-quote">"</div><div class="testi-text">Fast, clean code and excellent UI design. The dashboard they built for us replaced 3 separate tools and our team loves using it. Will definitely work with them again.</div><div class="testi-author"><div class="testi-av" style="color:var(--accent3)">MV</div><div><div class="testi-name">Muthu V.</div><div class="testi-company">Operations Head, LogiTrack</div></div></div></div>
-  </div>
-</section>
-
-<!-- CONTACT -->
+<!-- ════════════════ CONTACT ════════════════ -->
 <section id="contact">
-  <div class="section-label">Contact</div>
+  <div class="section-eyebrow">Contact</div>
   <div class="contact-grid">
     <div class="contact-info reveal">
       <h2 class="section-title">Let's build something great</h2>
-      <p style="color:var(--muted);margin-bottom:2.5rem;font-weight:300;">Have a project in mind? Drop us a message and we'll get back to you within 24 hours with a plan.</p>
-      <div class="contact-method"><div class="contact-icon">✉️</div><div><div class="contact-method-label">Email</div><a href="mailto:santhoshtamil1918@gmail.com" class="contact-method-text">santhoshtamil1918@gmail.com</a></div></div>
-      <div class="contact-method"><div class="contact-icon">📞</div><div><div class="contact-method-label">Phone</div><a href="tel:+916369600176" style="color:var(--accent);font-size:.9rem">+91 63696 00176</a></div></div>
-      <div class="contact-method"><div class="contact-icon">📍</div><div><div class="contact-method-label">Location</div><div style="font-size:.9rem">Madhukkarai, Coimbatore, Tamil Nadu, India</div></div></div>
-      <div class="contact-method"><div class="contact-icon">🕐</div><div><div class="contact-method-label">Response Time</div><div style="font-size:.9rem">Within 24 hours</div></div></div>
+      <p style="color:var(--muted);margin-bottom:2.75rem;font-weight:400;font-size:.95rem;line-height:1.7;max-width:380px;">Have a project in mind? Drop us a message and we'll get back to you within 24 hours with a plan.</p>
+
+      <div class="contact-method">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <div class="contact-method-label">Email</div>
+          <div class="contact-method-val"><a href="mailto:santhoshtamil1918@gmail.com">santhoshtamil1918@gmail.com</a></div>
+        </div>
+      </div>
+      <div class="contact-method">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-method-label">Phone</div>
+          <div class="contact-method-val"><a href="tel:+916369600176">+91 63696 00176</a></div>
+        </div>
+      </div>
+      <div class="contact-method">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-method-label">Location</div>
+          <div class="contact-method-val" style="color:var(--text)">Madhukkarai, Coimbatore, Tamil Nadu</div>
+        </div>
+      </div>
+      <div class="contact-method">
+        <div class="contact-icon">🕐</div>
+        <div>
+          <div class="contact-method-label">Response Time</div>
+          <div class="contact-method-val" style="color:var(--text)">Within 24 hours</div>
+        </div>
+      </div>
+
       <a href="https://wa.me/916369600176" target="_blank" class="wa-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Chat on WhatsApp
       </a>
     </div>
-    <div class="contact-form reveal">
+
+    <div class="contact-form-wrap reveal">
       <div class="form-row">
         <div class="form-group"><label>Your Name</label><input type="text" id="cName" placeholder="Arjun Kumar" /></div>
         <div class="form-group"><label>Email Address</label><input type="email" id="cEmail" placeholder="arjun@company.com" /></div>
       </div>
-      <div class="form-group"><label>Project Type</label><select id="cType"><option>Web Application</option><option>AI / Computer Vision</option><option>Cloud Infrastructure</option><option>Automation System</option><option>API Development</option><option>Dashboard / Reporting</option><option>Other</option></select></div>
-      <div class="form-group"><label>Budget Range</label><select id="cBudget"><option>Below ₹1,00,000</option><option>₹1,00,000 – ₹3,00,000</option><option>₹3,00,000 – ₹7,00,000</option><option>₹7,00,000 – ₹15,00,000</option><option>₹15,00,000+</option></select></div>
-      <div class="form-group"><label>Project Description</label><textarea id="cDesc" placeholder="Describe your project, goals, and timeline..."></textarea></div>
-      <button class="btn-primary" style="width:100%;padding:.85rem" onclick="submitForm()">Send Message →</button>
+      <div class="form-group">
+        <label>Project Type</label>
+        <select id="cType">
+          <option>Web Application</option><option>AI / Computer Vision</option>
+          <option>Cloud Infrastructure</option><option>Automation System</option>
+          <option>API Development</option><option>Dashboard / Reporting</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Budget Range</label>
+        <select id="cBudget">
+          <option>Below ₹1,00,000</option><option>₹1,00,000 – ₹3,00,000</option>
+          <option>₹3,00,000 – ₹7,00,000</option><option>₹7,00,000 – ₹15,00,000</option>
+          <option>₹15,00,000+</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Project Description</label>
+        <textarea id="cDesc" placeholder="Describe your project, goals, and timeline..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%;padding:.9rem;font-size:.85rem" onclick="submitForm()">Send Message →</button>
       <div class="form-success" id="formSuccess">✅ Message sent! We'll reply within 24 hours.</div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ════════════════ FOOTER ════════════════ -->
 <footer>
   <div class="footer-grid">
-    <div class="footer-brand">
-      <div class="logo"><span class="logo-dot"></span> CodeCraft Studio</div>
-      <p>A specialized freelance engineering team delivering custom software, AI systems, and cloud solutions from Madhukkarai, Coimbatore, Tamil Nadu.</p>
-      <div class="socials" style="margin-top:1rem">
+    <div>
+      <div class="footer-brand-logo">
+        <div class="logo">
+          <img src="logo.png" alt="CoreStack Labs" class="logo-img" onerror="this.style.display='none'">
+          CoreStack Labs
+        </div>
+      </div>
+      <p>From Idea to Scalable Product — a specialized engineering team delivering custom software, AI systems, and cloud solutions from Madhukkarai, Coimbatore, Tamil Nadu.</p>
+      <div class="socials">
         <a href="#" class="social-btn" title="LinkedIn">in</a>
         <a href="#" class="social-btn" title="GitHub">🐙</a>
         <a href="#" class="social-btn" title="Twitter">𝕏</a>
       </div>
     </div>
-    <div class="footer-col"><h5>Services</h5><ul><li><a href="#services">Web Development</a></li><li><a href="#services">AI & Vision</a></li><li><a href="#services">Automation</a></li><li><a href="#services">Cloud & DevOps</a></li><li><a href="#services">API Development</a></li></ul></div>
-    <div class="footer-col"><h5>Company</h5><ul><li><a href="#about">About Us</a></li><li><a href="#team">Our Team</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#testimonials">Testimonials</a></li><li><a href="#contact">Contact</a></li></ul></div>
-    <div class="footer-col"><h5>Tech</h5><ul><li><a href="#techstack">React / Node.js</a></li><li><a href="#techstack">Python / FastAPI</a></li><li><a href="#techstack">AWS / Docker</a></li><li><a href="#techstack">PostgreSQL</a></li><li><a href="#techstack">Computer Vision</a></li></ul></div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">Web Development</a></li>
+        <li><a href="#services">AI & Vision</a></li>
+        <li><a href="#services">Automation</a></li>
+        <li><a href="#services">Cloud & DevOps</a></li>
+        <li><a href="#services">API Development</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#team">Our Team</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Tech</h5>
+      <ul>
+        <li><a href="#techstack">React / Node.js</a></li>
+        <li><a href="#techstack">Python / FastAPI</a></li>
+        <li><a href="#techstack">AWS / Docker</a></li>
+        <li><a href="#techstack">PostgreSQL</a></li>
+        <li><a href="#techstack">Computer Vision</a></li>
+      </ul>
+    </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2025 <span>CodeCraft Studio</span>. All rights reserved.</span>
-    <span>Made with ♥ in Madhukkarai, Coimbatore</span>
+    <span>© 2025 <strong>CoreStack Labs</strong>. All rights reserved.</span>
+    <span>From Idea to Scalable Product · Madhukkarai, Coimbatore</span>
   </div>
 </footer>
 
-<!-- ADMIN PANEL BUTTON -->
-<button class="admin-btn" onclick="toggleAdmin()" title="Admin Panel">🛡</button>
+<!-- ADMIN FAB -->
+<button class="admin-fab" onclick="toggleAdmin()" title="Admin Panel">🛡</button>
 
 <!-- ADMIN PANEL -->
 <div id="admin-panel">
@@ -685,272 +1520,174 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 5vw
 </div>
 
 <script>
-/* ── TEAM MEMBER DATA ───────────────────────────────────── */
+/* ── MEMBER DATA ─────────────────────────────── */
 const members = {
   thamarai: {
-    name: 'Thamaraiselvan M',
-    role: 'Backend & AI Developer',
-    img: 'thamarai.jpg',
-    initials: 'TM',
-    c1: '#00e5ff', c2: '#7c3aed',
-    glow: 'rgba(0,229,255,.08)',
-    bio: 'Thamaraiselvan is the backbone of the team\'s AI and backend engineering. With deep expertise in Python and computer vision, he has built real-time defect detection systems, industrial automation pipelines, and scalable APIs that power production applications. He bridges the gap between data science and deployable software.',
-    expertise: [
-      { label: 'Python', pct: 95 },
-      { label: 'Computer Vision', pct: 90 },
-      { label: 'Node.js', pct: 82 },
-      { label: 'Automation', pct: 88 },
-    ],
-    skills: ['Python', 'Node.js', 'OpenCV', 'TensorFlow', 'FastAPI', 'Automation', 'PostgreSQL', 'Redis'],
-    highlights: [
-      { num: '12+', label: 'AI Projects' },
-      { num: '97%', label: 'Model Accuracy' },
-      { num: '4 yrs', label: 'Experience' },
-      { num: '3', label: 'Industries' },
-    ]
+    name:'Thamaraiselvan M', role:'Backend & AI Developer',
+    img:'thamarai.jpg', initials:'TM',
+    c1:'#4af2ff', c2:'#8b5cf6', glow:'rgba(74,242,255,.08)',
+    bio:"Thamaraiselvan is the backbone of the team's AI and backend engineering. With 4+ years of deep expertise in Node.js, Python, and automation, he has built real-time defect detection systems, intelligent automation pipelines, and scalable APIs that power production applications. He bridges the gap between data science and deployable software.",
+    expertise:[{label:'Python',pct:95},{label:'Node.js',pct:88},{label:'Automation',pct:90},{label:'AI Systems',pct:85}],
+    skills:['Python','Node.js','OpenCV','TensorFlow','FastAPI','Automation','PostgreSQL','Redis'],
+    highlights:[{num:'4+',label:'Years Exp'},{num:'12+',label:'AI Projects'},{num:'97%',label:'Model Accuracy'},{num:'3',label:'Industries'}]
   },
   naveen: {
-    name: 'Naveen Kumar R',
-    role: 'Full Stack Developer',
-    img: 'naveen.jpg',
-    initials: 'NR',
-    c1: '#7c3aed', c2: '#00e5ff',
-    glow: 'rgba(124,58,237,.08)',
-    bio: 'Naveen is a versatile full stack engineer who architects and builds end-to-end web applications. He excels at designing robust REST APIs, managing complex PostgreSQL schemas, and crafting polished React interfaces. Naveen has delivered SaaS platforms and dashboards for clients across e-commerce, logistics, and manufacturing.',
-    expertise: [
-      { label: 'React', pct: 92 },
-      { label: 'Node.js', pct: 90 },
-      { label: 'PostgreSQL', pct: 85 },
-      { label: 'REST APIs', pct: 93 },
-    ],
-    skills: ['React', 'Node.js', 'Express', 'PostgreSQL', 'MongoDB', 'TypeScript', 'REST APIs', 'Docker'],
-    highlights: [
-      { num: '15+', label: 'Web Apps Built' },
-      { num: '500+', label: 'Users Served' },
-      { num: '3 yrs', label: 'Experience' },
-      { num: '99%', label: 'Uptime Avg' },
-    ]
+    name:'Naveen Kumar R', role:'Full Stack Developer',
+    img:'naveen.jpg', initials:'NR',
+    c1:'#8b5cf6', c2:'#4af2ff', glow:'rgba(139,92,246,.08)',
+    bio:"Naveen is a versatile full stack engineer who architects and builds end-to-end web applications. With 3+ years of expertise in React and Node.js, he excels at designing robust REST APIs, managing complex schemas, and crafting polished interfaces. He has delivered SaaS platforms and dashboards across e-commerce, logistics, and manufacturing.",
+    expertise:[{label:'React',pct:92},{label:'Node.js',pct:90},{label:'PostgreSQL',pct:85},{label:'REST APIs',pct:93}],
+    skills:['React','Node.js','Express','PostgreSQL','MongoDB','TypeScript','REST APIs','Docker'],
+    highlights:[{num:'3+',label:'Years Exp'},{num:'15+',label:'Web Apps Built'},{num:'500+',label:'Users Served'},{num:'99%',label:'Uptime Avg'}]
   },
   kesavan: {
-    name: 'Kesavaraja J',
-    role: 'Frontend & API Developer',
-    img: 'kesavan.jpg',
-    initials: 'KJ',
-    c1: '#10b981', c2: '#7c3aed',
-    glow: 'rgba(16,185,129,.08)',
-    bio: 'Kesavaraja crafts the user-facing experiences and API layers that clients interact with every day. With a sharp eye for UI/UX and a strong command of React and Node.js, he translates designs into pixel-perfect, performant interfaces while also designing clean, well-documented APIs that integrate seamlessly with third-party services.',
-    expertise: [
-      { label: 'React / UI', pct: 94 },
-      { label: 'Node.js', pct: 86 },
-      { label: 'API Design', pct: 88 },
-      { label: 'UI/UX', pct: 85 },
-    ],
-    skills: ['React', 'Node.js', 'Tailwind CSS', 'API Design', 'Figma', 'TypeScript', 'REST', 'GraphQL'],
-    highlights: [
-      { num: '20+', label: 'UIs Shipped' },
-      { num: '10+', label: 'APIs Designed' },
-      { num: '3 yrs', label: 'Experience' },
-      { num: '4.9★', label: 'Client Rating' },
-    ]
+    name:'Kesavaraja J', role:'Frontend & API Developer',
+    img:'kesavan.jpg', initials:'KJ',
+    c1:'#34d399', c2:'#8b5cf6', glow:'rgba(52,211,153,.08)',
+    bio:"Kesavaraja crafts the user-facing experiences and API layers that clients interact with every day. With 3+ years focused on React and API development, he translates designs into pixel-perfect, performant interfaces while designing clean, well-documented APIs that integrate seamlessly with third-party services. Focused on clean UI and efficient integrations.",
+    expertise:[{label:'React / UI',pct:94},{label:'Node.js',pct:86},{label:'API Design',pct:88},{label:'UI/UX',pct:85}],
+    skills:['React','Node.js','Tailwind CSS','API Design','Figma','TypeScript','REST','GraphQL'],
+    highlights:[{num:'3+',label:'Years Exp'},{num:'20+',label:'UIs Shipped'},{num:'10+',label:'APIs Designed'},{num:'4.9★',label:'Client Rating'}]
   },
   dhinesh: {
-    name: 'Dhinesh',
-    role: 'Cloud Engineer',
-    img: 'dhinesh.jpg',
-    initials: 'DH',
-    c1: '#f59e0b', c2: '#10b981',
-    glow: 'rgba(245,158,11,.08)',
-    bio: 'Dhinesh designs and manages the cloud infrastructure that keeps every project running at scale. Specializing in AWS architecture, Docker containerization, and CI/CD automation, he has migrated legacy monoliths to microservices, cut infrastructure costs by up to 60%, and built self-healing pipelines that deploy code with zero downtime.',
-    expertise: [
-      { label: 'AWS', pct: 93 },
-      { label: 'Docker', pct: 90 },
-      { label: 'CI/CD', pct: 88 },
-      { label: 'Architecture', pct: 85 },
-    ],
-    skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'GitHub Actions', 'Nginx', 'Terraform', 'Linux'],
-    highlights: [
-      { num: '60%', label: 'Cost Reduction' },
-      { num: '99.9%', label: 'Uptime SLA' },
-      { num: '4 yrs', label: 'Experience' },
-      { num: '8+', label: 'Migrations Done' },
-    ]
+    name:'Dhinesh', role:'Cloud Engineer',
+    img:'dhinesh.jpg', initials:'DH',
+    c1:'#fbbf24', c2:'#34d399', glow:'rgba(251,191,36,.08)',
+    bio:"Dhinesh designs and manages the cloud infrastructure that keeps every project running at scale. With 2+ years specializing in AWS, deployment, and cloud architecture, he ensures secure, scalable, and reliable hosting. He has migrated legacy systems to microservices, cut infrastructure costs significantly, and built self-healing CI/CD pipelines with zero downtime.",
+    expertise:[{label:'AWS',pct:93},{label:'Deployment',pct:90},{label:'Cloud Arch',pct:88},{label:'CI/CD',pct:85}],
+    skills:['AWS','Docker','Kubernetes','CI/CD','GitHub Actions','Nginx','Terraform','Linux'],
+    highlights:[{num:'2+',label:'Years Exp'},{num:'60%',label:'Cost Reduction'},{num:'99.9%',label:'Uptime SLA'},{num:'8+',label:'Migrations Done'}]
   }
 };
 
-/* ── MODAL OPEN / CLOSE ────────────────────────────────── */
+/* ── MODAL ───────────────────────────────────── */
 function openModal(key) {
   const m = members[key];
   const overlay = document.getElementById('memberOverlay');
-  const modal   = document.getElementById('memberModal');
-
-  // Set CSS vars for accent colors
+  const modal = document.getElementById('memberModal');
   modal.style.setProperty('--modal-c1', m.c1);
   modal.style.setProperty('--modal-c2', m.c2);
   modal.style.setProperty('--modal-glow', m.glow);
-
-  // Top bar gradient
-  modal.querySelector('.member-modal-top-bar').style.background =
-    `linear-gradient(90deg,${m.c1},${m.c2})`;
-
-  // Avatar
+  modal.querySelector('.modal-top-strip').style.background = `linear-gradient(90deg,${m.c1},${m.c2})`;
   const av = document.getElementById('modalAvatar');
   av.style.borderColor = m.c1;
   av.style.background = `linear-gradient(135deg,${m.c1}22,${m.c1}44)`;
   av.style.color = m.c1;
-  av.innerHTML = `<img src="${m.img}" alt="${m.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.outerHTML='${m.initials}'">`;
-
+  av.innerHTML = `<img src="${m.img}" alt="${m.name}" style="width:100%;height:100%;object-fit:cover;border-radius:16px" onerror="this.outerHTML='${m.initials}'">`;
   document.getElementById('modalName').textContent = m.name;
   document.getElementById('modalRole').textContent = m.role;
   document.getElementById('modalBio').textContent = m.bio;
-
-  // Expertise bars
-  const expEl = document.getElementById('modalExpertise');
-  expEl.innerHTML = m.expertise.map(e => `
-    <div class="exp-bar-row">
-      <span class="exp-bar-label">${e.label}</span>
-      <div class="exp-bar-track"><div class="exp-bar-fill" data-pct="${e.pct}" style="background:linear-gradient(90deg,${m.c1},${m.c2})"></div></div>
-      <span style="font-size:.72rem;color:var(--muted);min-width:32px;text-align:right">${e.pct}%</span>
-    </div>
-  `).join('');
-
-  // Skills
-  document.getElementById('modalSkills').innerHTML = m.skills.map(s => `
-    <div class="modal-skill">
-      <span class="modal-skill-dot" style="background:${m.c1}"></span>${s}
-    </div>
-  `).join('');
-
-  // Highlights
-  document.getElementById('modalHighlights').innerHTML = m.highlights.map(h => `
-    <div class="modal-highlight">
-      <div class="modal-highlight-num" style="color:${m.c1}">${h.num}</div>
-      <div class="modal-highlight-label">${h.label}</div>
-    </div>
-  `).join('');
-
-  // Show overlay
+  document.getElementById('modalExpertise').innerHTML = m.expertise.map(e=>`
+    <div class="exp-row">
+      <span class="exp-row-label">${e.label}</span>
+      <div class="exp-track"><div class="exp-fill" data-pct="${e.pct}" style="background:linear-gradient(90deg,${m.c1},${m.c2})"></div></div>
+      <span class="exp-pct">${e.pct}%</span>
+    </div>`).join('');
+  document.getElementById('modalSkills').innerHTML = m.skills.map(s=>`
+    <div class="modal-skill"><span class="skill-dot" style="background:${m.c1}"></span>${s}</div>`).join('');
+  document.getElementById('modalHighlights').innerHTML = m.highlights.map(h=>`
+    <div class="highlight-box">
+      <div class="highlight-num" style="color:${m.c1}">${h.num}</div>
+      <div class="highlight-lbl">${h.label}</div>
+    </div>`).join('');
   document.body.style.overflow = 'hidden';
   overlay.classList.add('open');
-
-  // Animate bars after paint
-  setTimeout(() => {
-    document.querySelectorAll('.exp-bar-fill').forEach(bar => {
-      bar.style.width = bar.dataset.pct + '%';
-    });
-  }, 120);
+  setTimeout(()=>{
+    document.querySelectorAll('.exp-fill').forEach(b=>b.style.width=b.dataset.pct+'%');
+  }, 130);
 }
-
 function closeModal() {
-  const overlay = document.getElementById('memberOverlay');
-  overlay.classList.remove('open');
+  document.getElementById('memberOverlay').classList.remove('open');
   document.body.style.overflow = '';
-  // Reset bars for next open
-  setTimeout(() => {
-    document.querySelectorAll('.exp-bar-fill').forEach(b => b.style.width = '0');
-  }, 350);
+  setTimeout(()=>document.querySelectorAll('.exp-fill').forEach(b=>b.style.width='0'),350);
 }
-
 function handleOverlayClick(e) {
-  if (e.target === document.getElementById('memberOverlay')) closeModal();
+  if(e.target===document.getElementById('memberOverlay')) closeModal();
 }
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
-// Close on Escape key
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-/* ── THEME TOGGLE ──────────────────────────────────────── */
+/* ── THEME ───────────────────────────────────── */
 function toggleTheme() {
   const html = document.documentElement;
   const isDark = html.getAttribute('data-theme') === 'dark';
   html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  document.querySelector('.theme-btn').textContent = isDark ? '🌙' : '☀️';
+  document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀️';
 }
 
-/* ── MOBILE MENU ───────────────────────────────────────── */
+/* ── MOBILE MENU ─────────────────────────────── */
 function toggleMobile() {
   document.getElementById('mobileMenu').classList.toggle('open');
 }
 
-/* ── SCROLL REVEAL ─────────────────────────────────────── */
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('visible'), i * 80);
-    }
+/* ── SCROLL REVEAL ───────────────────────────── */
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'),i*70);
   });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-/* ── ESTIMATOR ─────────────────────────────────────────── */
-const basePrices = { web:80000, ai:150000, cloud:100000, auto:120000, api:60000, dash:70000 };
+/* ── ESTIMATOR ───────────────────────────────── */
+const BASE = {web:80000,ai:150000,cloud:100000,auto:120000,api:60000,dash:70000};
 function calcEstimate() {
-  const type       = document.getElementById('projType').value;
-  const timeline   = parseFloat(document.getElementById('timeline').value);
-  const team       = parseInt(document.getElementById('teamSize').value);
-  const complexity = parseFloat(document.getElementById('complexity').value);
+  const type = document.getElementById('projType').value;
+  const tl = parseFloat(document.getElementById('timeline').value);
+  const team = parseInt(document.getElementById('teamSize').value);
+  const cx = parseFloat(document.getElementById('complexity').value);
   let extras = 0;
-  document.querySelectorAll('#extras input:checked').forEach(cb => extras += parseInt(cb.value));
-  const base = basePrices[type];
-  const low  = Math.round((base + extras) * timeline * (team * 0.7) * complexity / 1000) * 1000;
-  const high = Math.round(low * 1.6 / 1000) * 1000;
-  const fmt  = n => '₹' + n.toLocaleString('en-IN');
-  document.getElementById('estimateOutput').textContent = `${fmt(low)} – ${fmt(high)}`;
+  document.querySelectorAll('#extras input:checked').forEach(cb=>extras+=parseInt(cb.value));
+  const low = Math.round((BASE[type]+extras)*tl*(team*0.7)*cx/1000)*1000;
+  const high = Math.round(low*1.6/1000)*1000;
+  const fmt = n=>'₹'+n.toLocaleString('en-IN');
+  document.getElementById('estimateOutput').textContent=`${fmt(low)} – ${fmt(high)}`;
 }
 calcEstimate();
 
-/* ── CONTACT FORM / LEADS ──────────────────────────────── */
-let leads = JSON.parse(localStorage.getItem('cc_leads') || '[]');
+/* ── LEADS / ADMIN ───────────────────────────── */
+let leads = JSON.parse(localStorage.getItem('cc_leads')||'[]');
 function submitForm() {
-  const name   = document.getElementById('cName').value.trim();
-  const email  = document.getElementById('cEmail').value.trim();
-  const type   = document.getElementById('cType').value;
-  const budget = document.getElementById('cBudget').value;
-  const desc   = document.getElementById('cDesc').value.trim();
-  if (!name || !email) { alert('Please fill in your name and email.'); return; }
-  const lead = { id: Date.now(), name, email, type, budget, desc, time: new Date().toISOString(), status: 'new' };
+  const name=document.getElementById('cName').value.trim();
+  const email=document.getElementById('cEmail').value.trim();
+  if(!name||!email){alert('Please fill in your name and email.');return;}
+  const lead={id:Date.now(),name,email,
+    type:document.getElementById('cType').value,
+    budget:document.getElementById('cBudget').value,
+    desc:document.getElementById('cDesc').value.trim(),
+    time:new Date().toISOString(),status:'new'};
   leads.unshift(lead);
-  localStorage.setItem('cc_leads', JSON.stringify(leads));
-  document.getElementById('formSuccess').style.display = 'block';
-  document.getElementById('cName').value  = '';
-  document.getElementById('cEmail').value = '';
-  document.getElementById('cDesc').value  = '';
+  localStorage.setItem('cc_leads',JSON.stringify(leads));
+  document.getElementById('formSuccess').style.display='block';
+  document.getElementById('cName').value='';
+  document.getElementById('cEmail').value='';
+  document.getElementById('cDesc').value='';
   renderLeads();
 }
-
-function renderLeads() {
-  const list    = document.getElementById('leads-list');
-  const today   = new Date().toDateString();
-  const newToday = leads.filter(l => new Date(l.time).toDateString() === today).length;
-  document.getElementById('s-total').textContent = leads.length;
-  document.getElementById('s-new').textContent   = newToday;
-  if (!leads.length) {
-    list.innerHTML = '<p style="color:var(--muted);font-size:.85rem;text-align:center;padding:2rem">No leads yet. Share your site!</p>';
-    return;
-  }
-  list.innerHTML = leads.map(l => `
+function renderLeads(){
+  const list=document.getElementById('leads-list');
+  const today=new Date().toDateString();
+  const newToday=leads.filter(l=>new Date(l.time).toDateString()===today).length;
+  document.getElementById('s-total').textContent=leads.length;
+  document.getElementById('s-new').textContent=newToday;
+  if(!leads.length){list.innerHTML='<p style="color:var(--muted);font-size:.82rem;text-align:center;padding:2rem">No leads yet. Share your site!</p>';return;}
+  list.innerHTML=leads.map(l=>`
     <div class="lead-card">
       <div class="lead-name">${l.name}</div>
       <div class="lead-email">${l.email}</div>
       <div class="lead-project">${l.type} · ${l.budget}</div>
-      ${l.desc ? `<div class="lead-project" style="margin-top:.4rem">${l.desc.slice(0,100)}${l.desc.length>100?'…':''}</div>` : ''}
+      ${l.desc?`<div class="lead-project" style="margin-top:.3rem">${l.desc.slice(0,100)}${l.desc.length>100?'…':''}</div>`:''}
       <div class="lead-meta">
         <span class="lead-time">${new Date(l.time).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</span>
         <span class="lead-status ${l.status==='new'?'status-new':'status-seen'}">${l.status}</span>
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 renderLeads();
-
-/* ── ADMIN PANEL ───────────────────────────────────────── */
-function toggleAdmin() {
-  document.getElementById('admin-panel').classList.toggle('open');
-  renderLeads();
-}
-function switchTab(tab, btn) {
-  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+function toggleAdmin(){document.getElementById('admin-panel').classList.toggle('open');renderLeads();}
+function switchTab(tab,btn){
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('tab-leads').style.display = tab === 'leads' ? 'block' : 'none';
-  document.getElementById('tab-stats').style.display = tab === 'stats' ? 'block' : 'none';
+  document.getElementById('tab-leads').style.display=tab==='leads'?'block':'none';
+  document.getElementById('tab-stats').style.display=tab==='stats'?'block':'none';
 }
 </script>
 </body>
